@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative flex items-center justify-center h-screen bg-gradient-to-br from-blue-500 to-purple-600">
-      <div className="max-w-4xl text-center text-white px-6">
+    <section className="relative flex flex-col md:flex-row items-center justify-between h-screen px-6 md:px-12 bg-gradient-to-br from-blue-500 to-purple-600">
+      {/* Left Section: Text Content */}
+      <div className="max-w-2xl text-left text-white">
         {/* Animated Heading */}
         <motion.h1
           className="text-5xl font-bold mb-4"
@@ -34,11 +35,11 @@ const Hero = () => {
         </motion.button>
       </div>
 
-      {/* Image with Animation */}
+      {/* Right Section: Image */}
       <motion.img
         src="https://avatars.githubusercontent.com/u/156291108?v=4"
         alt="Hero"
-        className="absolute bottom-10 right-10 w-96 rounded-lg shadow-xl"
+        className="w-80 md:w-96 rounded-lg shadow-xl mt-8 md:mt-0"
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.8 }}
