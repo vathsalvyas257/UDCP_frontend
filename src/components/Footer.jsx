@@ -36,13 +36,13 @@ const Footer = () => {
           <p className="text-sm text-gray-400">Email: info@university.edu</p>
 
           <div className="flex space-x-4 mt-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-3xl">
               <FontAwesomeIcon icon={faFacebookF} />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-3xl">
               <FontAwesomeIcon icon={faTwitter} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white text-3xl">
               <FontAwesomeIcon icon={faLinkedinIn} />
             </a>
           </div>
@@ -67,7 +67,7 @@ const Footer = () => {
       </div>
       
       <div className="text-center mt-8 text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} University Department Information System. All rights reserved.
+        &copy; {new Date().getFullYear()} Tech Alchemists - Aadhya2k25. All rights reserved.
       </div>
     </footer>
   );
