@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { href } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // Importing Hamburger & Close icons
 
 const Header = () => {
@@ -80,32 +80,32 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Right Side - Navigation Links */}
+      {/* Right Side - Navigation hrefs */}
       <div className="hidden md:flex items-center space-x-4">
-        <Link
+        <href
           to="/services"
           className="text-blue-600 font-medium hover:text-blue-800 transition duration-300"
         >
           Our Services
-        </Link>
-        <Link
+        </href>
+        <href
           to="/rewards"
           className="text-blue-600 font-medium hover:text-blue-800 transition duration-300"
         >
           Our Rewards
-        </Link>
-        <Link
+        </href>
+        <href
           to="/login"
           className="text-blue-600 font-medium text-sm px-3 py-1 border border-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-300"
         >
           Login
-        </Link>
-        <Link
+        </href>
+        <href
           to="/signup"
           className="bg-blue-600 text-white font-medium text-sm px-3 py-1 rounded hover:bg-blue-700 transition duration-300"
         >
           Sign Up
-        </Link>
+        </href>
       </div>
 
       {/* Mobile Menu - Hamburger Icon */}
@@ -131,34 +131,34 @@ const Header = () => {
           <X size={28} />
         </button>
         <div className="mt-10 flex flex-col space-y-4">
-          <Link
+          <href
             to="/services"
             className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
             onClick={() => setMenuOpen(false)}
           >
             Our Services
-          </Link>
-          <Link
+          </href>
+          <href
             to="/rewards"
             className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
             onClick={() => setMenuOpen(false)}
           >
             Our Rewards
-          </Link>
-          <Link
+          </href>
+          <href
             to="/login"
             className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
             onClick={() => setMenuOpen(false)}
           >
             Login
-          </Link>
-          <Link
+          </href>
+          <href
             to="/signup"
             className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
             onClick={() => setMenuOpen(false)}
           >
             Sign Up
-          </Link>
+          </href>
         </div>
       </div>
     </nav>
