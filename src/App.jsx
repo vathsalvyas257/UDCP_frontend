@@ -2,12 +2,14 @@
 import './App.css'
 import Hero from './components/Hero'
 import Footer from './components/Footer'
+import HeroCarousel from './components/HeroCarousel'
 function App() {
   
 
   return (
     <div>
-      <Hero/>
+      {/* <Hero/> */}
+      <HeroCarousel/>
       <Footer/>
     </div>
   )
