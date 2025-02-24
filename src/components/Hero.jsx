@@ -2,14 +2,19 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative flex flex-col md:flex-row items-center justify-between h-screen px-6 md:px-12 bg-gradient-to-br from-blue-500 to-purple-600">
+    <section className="relative flex flex-col md:flex-row items-center justify-between h-screen px-6 py-5 md:py-0 md:px-12 text-black">
       {/* Left Section: Text Content */}
-      <div className="max-w-2xl text-left text-white">
+      <motion.div
+        className="max-w-2xl text-left"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+      >
         {/* Animated Heading */}
         <motion.h1
           className="text-5xl font-bold mb-4"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
         >
           Elevate Your Business with Innovation
@@ -27,15 +32,15 @@ const Hero = () => {
 
         {/* Call-to-Action Button */}
         <motion.button
-          className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-gray-200 transition-all"
-          whileHover={{ scale: 1.1 }}
+          className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition-all"
+          whileHover={{ scale: 1.1, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)" }}
           whileTap={{ scale: 0.9 }}
         >
           Get Started
         </motion.button>
-      </div>
+      </motion.div>
 
-      {/* Right Section: Image */}
+      {/* Right Section: Image with Tilt Effect */}
       <motion.img
         src="https://avatars.githubusercontent.com/u/156291108?v=4"
         alt="Hero"
@@ -43,6 +48,12 @@ const Hero = () => {
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.8 }}
+        whileHover={{
+          rotateY: 10,
+          scale: 1.05,
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+          transition: { duration: 0.3 },
+        }}
       />
     </section>
   );
