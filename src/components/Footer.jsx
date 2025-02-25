@@ -5,7 +5,7 @@ import { faFacebookF, faTwitter, faLinkedinIn } from "@fortawesome/free-brands-s
 
 const Footer = () => {
   return (
-    <Paper component="footer" sx={{ mt: 8, py: 5, backgroundColor: "#1a1a1a", color: "#ffffff" }}>
+    <Paper id="contact" component="footer" sx={{ mt: 8, py: 5, backgroundColor: "#1a1a1a", color: "#ffffff" }}>
       <Container maxWidth="lg">
         <Grid container spacing={5} justifyContent="center">
           

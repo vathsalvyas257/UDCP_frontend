@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { href } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // Importing Hamburger & Close icons
+import { Link } from "react-router-dom";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 const Header = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [homeMenuOpen, setHomeMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [hoveringHome, setHoveringHome] = useState(false);
+  let homeTimeout;
 
-  // Handle screen resize
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -17,95 +18,82 @@ const Header = () => {
   }, []);
 
   const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-      setDropdownOpen(false);
-    }
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    setHomeMenuOpen(false);
+    setMenuOpen(false);
   };
 
   return (
-    <nav className="bg-white shadow-md p-3 flex justify-between items-center fixed w-full top-0 z-50">
-      {/* Left Side - Logo, Name */}
-      <div className="flex items-center space-x-4">
+    <nav className="bg-white shadow-md p-2 navbarsfor men  flex justify-between items-center fixed w-full top-0 z-50 px-8 md:px-16">
+      {/* Left - Logo & Home */}
+      <div className="flex items-center space-x-6">
+        <Link to="/">
         <img
           src="https://cdn.pixabay.com/photo/2018/03/10/12/00/teamwork-3213924_640.jpg"
-          alt="Sonic Solutions"
-          className="h-9 w-9 rounded-full"
+          alt="Logo"
+          className="h-11 w-11 rounded-full"
         />
+</Link>
+      <Link to="/">
         <h1 className="text-lg font-bold text-gray-800">Solutions</h1>
-
-        {/* Home Dropdown (Hover on Desktop, Click on Mobile) */}
-        <div
-          className="relative"
-          onMouseEnter={() => !isMobile && setDropdownOpen(true)}
-          onMouseLeave={() => !isMobile && setDropdownOpen(false)}
-        >
-          <button
-            className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
-            onClick={() => isMobile && setDropdownOpen(!dropdownOpen)}
-          >
-            Home
-          </button>
+        </Link>
+        {/* Desktop Home Dropdown */}
+        {!isMobile && (
           <div
-            className={`absolute bg-white shadow-md rounded mt-2 py-2 w-40 transition-all duration-300 
-              ${dropdownOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
-            `}
+            className="relative"
+            onMouseEnter={() => {
+              clearTimeout(homeTimeout);
+              setHoveringHome(true);
+            }}
+            onMouseLeave={() => {
+              homeTimeout = setTimeout(() => setHoveringHome(false), 500); // Delay closing
+            }}
           >
-            <button
-              onClick={() => scrollToSection("about")}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-200 transition duration-200"
-            >
-              About
+            <Link to="/">
+            <button className="text-gray-700 font-semibold hover:text-blue-600 transition cursor-pointer">
+              Home
             </button>
-            <button
-              onClick={() => scrollToSection("why")}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-200 transition duration-200"
-            >
-              Why
-            </button>
-            <button
-              onClick={() => scrollToSection("what")}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-200 transition duration-200"
-            >
-              What
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-200 transition duration-200"
-            >
-              Contact
-            </button>
+            </Link>
+            {hoveringHome && (
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded py-2 w-40 transition-opacity opacity-100">
+                {["about", "why", "what", "contact"].map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(item)}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                  >
+                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Right Side - Navigation hrefs */}
-      <div className="hidden md:flex items-center space-x-4">
-        <href
-          to="/services"
-          className="text-blue-600 font-medium hover:text-blue-800 transition duration-300"
-        >
-          Our Services
-        </href>
-        <href
-          to="/rewards"
-          className="text-blue-600 font-medium hover:text-blue-800 transition duration-300"
-        >
-          Our Rewards
-        </href>
-        <href
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex items-center space-x-6">
+        {["services", "rewards"].map((link) => (
+          <Link
+            key={link}
+            to={`/${link}`}
+            className="text-blue-600 font-medium hover:text-blue-800 transition"
+          >
+            Our {link.charAt(0).toUpperCase() + link.slice(1)}
+          </Link>
+        ))}
+        <Link
           to="/login"
-          className="text-blue-600 font-medium text-sm px-3 py-1 border border-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-300"
+          className="text-blue-600 font-medium text-sm px-3 py-1 border border-blue-600 rounded hover:bg-blue-600 hover:text-white transition"
         >
           Login
-        </href>
-        <href
+        </Link>
+        <Link
           to="/signup"
-          className="bg-blue-600 text-white font-medium text-sm px-3 py-1 rounded hover:bg-blue-700 transition duration-300"
+          className="bg-blue-600 text-white font-medium text-sm px-3 py-1 rounded hover:bg-blue-700 transition"
         >
           Sign Up
-        </href>
+        </Link>
       </div>
 
       {/* Mobile Menu - Hamburger Icon */}
@@ -131,34 +119,47 @@ const Header = () => {
           <X size={28} />
         </button>
         <div className="mt-10 flex flex-col space-y-4">
-          <href
-            to="/services"
-            className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
-            onClick={() => setMenuOpen(false)}
-          >
-            Our Services
-          </href>
-          <href
-            to="/rewards"
-            className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
-            onClick={() => setMenuOpen(false)}
-          >
-            Our Rewards
-          </href>
-          <href
-            to="/login"
-            className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
-            onClick={() => setMenuOpen(false)}
-          >
-            Login
-          </href>
-          <href
-            to="/signup"
-            className="text-gray-700 font-semibold hover:text-blue-600 transition duration-300"
-            onClick={() => setMenuOpen(false)}
-          >
-            Sign Up
-          </href>
+          {/* Home in Mobile Menu */}
+          <div>
+            <button
+              className="w-full text-left text-gray-700 font-semibold hover:text-blue-600 flex justify-between items-center"
+              onClick={() => setHomeMenuOpen(!homeMenuOpen)}
+            >
+              Home
+              <ChevronDown
+                size={18}
+                className={`transition-transform ${
+                  homeMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {homeMenuOpen && (
+              <div className="mt-2 ml-4 space-y-2">
+                {["about", "why", "what", "contact"].map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => scrollToSection(item)}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                  >
+                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {["services", "rewards", "login", "signup"].map((link) => (
+            <Link
+              key={link}
+              to={`/${link}`}
+              className="text-gray-700 font-semibold hover:text-blue-600 transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              {link === "login" || link === "signup"
+                ? link.charAt(0).toUpperCase() + link.slice(1)
+                : `Our ${link.charAt(0).toUpperCase() + link.slice(1)}`}
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

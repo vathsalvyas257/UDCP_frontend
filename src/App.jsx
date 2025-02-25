@@ -1,18 +1,27 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css';
+import Home from './components/Home';
+import Hero from './components/Hero';
+import Footer from './components/Footer';
 
-import './App.css'
-import Hero from './components/Hero'
-import Footer from './components/Footer'
-import HeroCarousel from './components/HeroCarousel'
-import Home from './components/Home/index'
+import ServicesPage from "./components/ServicesPage";
+
+import RewardsPage from "./components/RewardsPage";
+
+import Header from "./components/Header"; // Ensure Header is included
 
 function App() {
-  
-
   return (
-    <>
-      <Home/>
-    </>
-  )
+    <Router>
+      <Header /> {/* Persistent Navigation */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/rewards" element={<RewardsPage />} />
+      </Routes>
+    
+    </Router>
+  );
 }
 
 export default App;
