@@ -61,7 +61,8 @@ const Auth = () => {
       // Send request to backend
       console.log("form Data:",formData);
       const {data}  = await axios.post(`http://localhost:7777${endpoint}`, formData, {
-        withCredentials: true, // Ensure cookies are handled properly
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" }, // Ensure cookies are handled properly
       });
       console.log(data);
       // Store token in cookies (optional)
