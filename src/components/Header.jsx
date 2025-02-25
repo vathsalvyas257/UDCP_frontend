@@ -83,17 +83,12 @@ const Header = () => {
           </Link>
         ))}
         <Link
-          to="/login"
+          to="/auth"
           className="text-blue-600 font-medium text-sm px-3 py-1 border border-blue-600 rounded hover:bg-blue-600 hover:text-white transition"
         >
-          Login
+          Login/Signup
         </Link>
-        <Link
-          to="/signup"
-          className="bg-blue-600 text-white font-medium text-sm px-3 py-1 rounded hover:bg-blue-700 transition"
-        >
-          Sign Up
-        </Link>
+       
       </div>
 
       {/* Mobile Menu - Hamburger Icon */}
@@ -147,19 +142,26 @@ const Header = () => {
               </div>
             )}
           </div>
+          {["services", "rewards"].map((link) => (
+  <Link
+    key={link}
+    to={`/${link}`}
+    className="text-gray-700 font-semibold hover:text-blue-600 transition"
+    onClick={() => setMenuOpen(false)}
+  >
+    Our {link.charAt(0).toUpperCase() + link.slice(1)}
+  </Link>
+))}
 
-          {["services", "rewards", "login", "signup"].map((link) => (
-            <Link
-              key={link}
-              to={`/${link}`}
-              className="text-gray-700 font-semibold hover:text-blue-600 transition"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link === "login" || link === "signup"
-                ? link.charAt(0).toUpperCase() + link.slice(1)
-                : `Our ${link.charAt(0).toUpperCase() + link.slice(1)}`}
-            </Link>
-          ))}
+<Link
+  to="/auth"
+  className="bg-blue-600 text-white font-medium text-sm px-4 py-2 rounded hover:bg-blue-700 transition"
+  onClick={() => setMenuOpen(false)}
+>
+  Login/Signup
+</Link>
+
+
         </div>
       </div>
     </nav>

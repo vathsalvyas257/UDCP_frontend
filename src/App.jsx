@@ -9,7 +9,7 @@ import ServicesPage from "./components/ServicesPage";
 import RewardsPage from "./components/RewardsPage";
 
 import Header from "./components/Header"; // Ensure Header is included
-
+import Auth from "./components/Auth";
 function App() {
   return (
     <Router>
@@ -18,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
+        <Route path="/auth" element={<Auth />}/>
       </Routes>
     
     </Router>

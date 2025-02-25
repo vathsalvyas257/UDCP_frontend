@@ -6,6 +6,7 @@ import BallSpinner from '../loaders/BallSpinner'
 import SpinningLoader from '../loaders/SpinningLoader'
 import Header from '../Header'
 
+
 function Home() {
   const [loading, setLoading] = useState(true);
 
