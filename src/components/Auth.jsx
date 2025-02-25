@@ -3,7 +3,8 @@ import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-
+import { useDispatch } from "react-redux";
+import { login } from "../redux/authSlice"; // Import login action
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
@@ -12,17 +13,40 @@ const Auth = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const dispatch = useDispatch();
+ 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
-      const { data } = await axios.post(`http://localhost:7777${endpoint}`, formData);
-      document.cookie = `token=${data.token}; path=/;`;
-      window.location.href = "/dashboard";
+      // Determine API endpoint based on login/signup state
+      const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
+  
+      // Send request to backend
+      console.log("form Data:",formData);
+      const {data}  = await axios.post(`http://localhost:7777${endpoint}`, formData, {
+        withCredentials: true, // Ensure cookies are handled properly
+      });
+      console.log(data);
+      // Store token in cookies (optional)
+      // document.cookie = `token=${data.token}; path=/;`;
+  
+      // Dispatch user data to Redux
+      dispatch(login(data.user)); // Assuming `data.user` contains user details
+  
+      // Reset form data and login state
+      setFormData({ name: "", email: "", password: "" });
+      setIsLogin(true);
+  
+      // Redirect user after successful authentication
     } catch (error) {
       alert(error.response?.data?.error || "Something went wrong");
     }
   };
+  
+
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-800 px-4">
