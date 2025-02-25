@@ -2,33 +2,49 @@ import { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook,FaUpload } from "react-icons/fa";
+import { FaFacebook, FaUpload, FaKey, FaEye, FaEyeSlash } from "react-icons/fa"; // Added FaEye and FaEyeSlash
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice"; // Import login action
 import { useNavigate } from "react-router-dom";
+import successSound from "./success.mp3"; // Import success sound
+import failureSound from "./failure.mp3"; // Import failure sound
+import Popup from "./Popup"; // Import Popup component
+
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null });
   const [errors, setErrors] = useState({});
   const [shake, setShake] = useState(false);
-const navigate=useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null); // For image preview
+  const [showPassword, setShowPassword] = useState(false); // For password visibility
+  const [showRePassword, setShowRePassword] = useState(false); // For re-enter password visibility
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Handle input change
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setFormData({ ...formData, [name]: files[0] });
+      setImagePreview(URL.createObjectURL(files[0])); // Set image preview
     } else {
       setFormData({ ...formData, [name]: value });
     }
     validateField(name, value);
   };
 
+  // Validate form fields
   const validateField = (name, value) => {
     let newErrors = { ...errors };
 
     if (name === "password") {
       const passwordRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
       if (!passwordRegex.test(value)) {
-        newErrors.password = "Password must be 8+ chars, include a number, uppercase,special char.";
+        newErrors.password = "Password must be 8+ chars, include a number, uppercase, special char.";
       } else {
         delete newErrors.password;
       }
@@ -43,13 +59,41 @@ const navigate=useNavigate();
     setErrors(newErrors);
   };
 
-  const dispatch = useDispatch();
- 
+  // Play success sound
+  const playSuccessSound = () => {
+    const audio = new Audio(successSound);
+    audio.play();
+  };
 
+  // Play failure sound
+  const playFailureSound = () => {
+    const audio = new Audio(failureSound);
+    audio.play();
+  };
+
+  // Show success popup
+  const showSuccessPopup = (message) => {
+    setPopupMessage(message);
+    setIsSuccess(true);
+    setShowPopup(true);
+    playSuccessSound(); // Play success sound
+    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+  };
+
+  // Show failure popup
+  const showFailurePopup = (message) => {
+    setPopupMessage(message);
+    setIsSuccess(false);
+    setShowPopup(true);
+    playFailureSound(); // Play failure sound
+    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+  };
+
+  // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image) {
-      alert("Please fill all fields and upload an image");
+      showFailurePopup("Please fill all fields and upload an image");
       return;
     }
     try {
@@ -59,38 +103,40 @@ const navigate=useNavigate();
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("Signup successful! Please login.");
+      showSuccessPopup("Signup successful! Please login.");
       setIsLogin(true);
     } catch (error) {
-      alert(error.response?.data?.error || "Signup failed");
+      showFailurePopup(error.response?.data?.error || "Signup failed");
     }
   };
 
+  // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      alert("Please enter email and password");
+      showFailurePopup("Please enter email and password");
       return;
     }
     try {
-      const { data } = await axios.post("http://localhost:7777/api/auth/login", {
-        email: formData.email,
-        password: formData.password,
-      }, { withCredentials: true });
+      const { data } = await axios.post(
+        "http://localhost:7777/api/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+        { withCredentials: true }
+      );
       dispatch(login(data.user));
-      navigate("/dashboard");
+      showSuccessPopup("Login successful! Redirecting to dashboard...");
+      setTimeout(() => navigate("/dashboard"), 2000); // Redirect after 2 seconds
     } catch (error) {
-      alert(error.response?.data?.error || "Login failed");
+      showFailurePopup(error.response?.data?.error || "Login failed");
     }
   };
-  
-
-  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-800 px-4">
-      <div className="relative w-full max-w-4xl bg-white rounded-lg shadow-lg flex flex-col md:flex-row overflow-hidden mt-16"> {/* Added margin-top */}
-        
+      <div className="relative w-full max-w-4xl bg-white rounded-lg shadow-lg flex flex-col md:flex-row overflow-hidden mt-16">
         {/* Animated Left Section */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -113,9 +159,10 @@ const navigate=useNavigate();
             </p>
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="mt-5 px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition"
+              className="mt-5 px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition flex items-center space-x-2"
             >
-              {isLogin ? "Sign Up" : "Login"}
+              <FaKey className="inline-block" /> {/* Key Icon */}
+              <span>{isLogin ? "Sign Up" : "Login"}</span>
             </button>
           </motion.div>
         </AnimatePresence>
@@ -132,7 +179,10 @@ const navigate=useNavigate();
               isLogin ? "order-2" : "order-1"
             }`}
           >
-            <h2 className="text-2xl font-semibold text-center mb-5">{isLogin ? "Login" : "Sign Up"}</h2>
+            <h2 className="text-2xl font-semibold text-center mb-5 flex items-center justify-center space-x-2">
+              <FaKey className="inline-block" /> {/* Key Icon */}
+              <span>{isLogin ? "Login" : "Sign Up"}</span>
+            </h2>
             <form onSubmit={isLogin ? handleLogin : handleSignup} className="flex flex-col space-y-4">
               {!isLogin && (
                 <input
@@ -154,38 +204,56 @@ const navigate=useNavigate();
                 className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
                 required
               />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`border p-2 rounded-md focus:ring-2 focus:ring-blue-500 ${
-                  errors.password || shake ? "border-red-500 shake" : ""
-                }`}
-                required
-              />
-              {errors.password && <p className="text-red-500 text-xs whitespace-nowrap">{errors.password}</p>} {/* Single-line error */}
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={`border p-2 rounded-md focus:ring-2 focus:ring-blue-500 w-full ${
+                    errors.password || shake ? "border-red-500 shake" : ""
+                  }`}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle Eye Icon */}
+                </button>
+              </div>
+              {errors.password && <p className="text-red-500 text-xs whitespace-nowrap">{errors.password}</p>}
               {!isLogin && (
                 <>
-                  <input
-                    type="password"
-                    name="rePassword"
-                    placeholder="Re-enter Password"
-                    value={formData.rePassword}
-                    onChange={handleChange}
-                    className={`border p-2 rounded-md focus:ring-2 focus:ring-blue-500 ${
-                      errors.rePassword || shake ? "border-red-500 shake" : ""
-                    }`}
-                    required
-                  />
-                  {errors.rePassword && <p className="text-red-500 text-xs whitespace-nowrap">{errors.rePassword}</p>} {/* Single-line error */}
+                  <div className="relative">
+                    <input
+                      type={showRePassword ? "text" : "password"}
+                      name="rePassword"
+                      placeholder="Re-enter Password"
+                      value={formData.rePassword}
+                      onChange={handleChange}
+                      className={`border p-2 rounded-md focus:ring-2 focus:ring-blue-500 w-full ${
+                        errors.rePassword || shake ? "border-red-500 shake" : ""
+                      }`}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowRePassword(!showRePassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+                    >
+                      {showRePassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle Eye Icon */}
+                    </button>
+                  </div>
+                  {errors.rePassword && <p className="text-red-500 text-xs whitespace-nowrap">{errors.rePassword}</p>}
                 </>
               )}
               {!isLogin && (
                 <div className="flex items-center space-x-2">
                   <label htmlFor="image" className="cursor-pointer">
-                    <FaUpload className="text-blue-500 text-2xl" /> {/* Dummy icon */}
+                    <FaUpload className="text-blue-500 text-2xl" />
                   </label>
                   <input
                     type="file"
@@ -196,13 +264,21 @@ const navigate=useNavigate();
                     className="hidden"
                   />
                   <span className="text-sm text-gray-600">Upload Profile Picture</span>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  )}
                 </div>
               )}
               <button
                 type="submit"
-                className="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition"
+                className="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center justify-center space-x-2"
               >
-                {isLogin ? "Login" : "Sign Up"}
+                <FaKey className="inline-block" /> {/* Key Icon */}
+                <span>{isLogin ? "Login" : "Sign Up"}</span>
               </button>
               <div className="flex justify-center space-x-4 mt-3">
                 <a href="http://localhost:7777/api/auth/google" className="flex items-center space-x-2 border px-4 py-2 rounded-md shadow-md hover:bg-gray-200 transition">
@@ -218,6 +294,9 @@ const navigate=useNavigate();
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Popup at the Top */}
+      <Popup show={showPopup} isSuccess={isSuccess} message={popupMessage} />
     </div>
   );
 };
