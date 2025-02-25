@@ -5,12 +5,13 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook,FaUpload } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice"; // Import login action
+import { useNavigate } from "react-router-dom";
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null });
   const [errors, setErrors] = useState({});
   const [shake, setShake] = useState(false);
-
+const navigate=useNavigate();
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image") {
@@ -45,39 +46,41 @@ const Auth = () => {
   const dispatch = useDispatch();
  
 
-  const handleSubmit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-
-    if (Object.keys(errors).length > 0 || (isLogin && !formData.password) || (!isLogin && (!formData.password || !formData.rePassword))) {
-      setShake(true);
-      setTimeout(() => setShake(false), 500); // Reset shake after 0.5 seconds
+    if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image) {
+      alert("Please fill all fields and upload an image");
       return;
     }
-
     try {
-      // Determine API endpoint based on login/signup state
-      const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
-  
-      // Send request to backend
-      console.log("form Data:",formData);
-      const {data}  = await axios.post(`http://localhost:7777${endpoint}`, formData, {
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach((key) => formDataToSend.append(key, formData[key]));
+      const { data } = await axios.post("http://localhost:7777/api/auth/register", formDataToSend, {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" }, // Ensure cookies are handled properly
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(data);
-      // Store token in cookies (optional)
-      // document.cookie = `token=${data.token}; path=/;`;
-  
-      // Dispatch user data to Redux
-      dispatch(login(data.user)); // Assuming `data.user` contains user details
-  
-      // Reset form data and login state
-      setFormData({ name: "", email: "", password: "" });
+      alert("Signup successful! Please login.");
       setIsLogin(true);
-  
-      // Redirect user after successful authentication
     } catch (error) {
-      alert(error.response?.data?.error || "Something went wrong");
+      alert(error.response?.data?.error || "Signup failed");
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      alert("Please enter email and password");
+      return;
+    }
+    try {
+      const { data } = await axios.post("http://localhost:7777/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      }, { withCredentials: true });
+      dispatch(login(data.user));
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.response?.data?.error || "Login failed");
     }
   };
   
@@ -130,7 +133,7 @@ const Auth = () => {
             }`}
           >
             <h2 className="text-2xl font-semibold text-center mb-5">{isLogin ? "Login" : "Sign Up"}</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+            <form onSubmit={isLogin ? handleLogin : handleSignup} className="flex flex-col space-y-4">
               {!isLogin && (
                 <input
                   type="text"

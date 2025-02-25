@@ -5,7 +5,7 @@ import Hero from './components/Hero';
 import Footer from './components/Footer';
 import AuthSuccess from "./components/AuthSuccess";
 import ServicesPage from "./components/ServicesPage";
-
+import Dashboard from "./components/Dashboard";
 import RewardsPage from "./components/RewardsPage";
 
 import Header from "./components/Header"; // Ensure Header is included
@@ -20,6 +20,7 @@ function App() {
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/auth" element={<Auth />}/>
         <Route path='/auth-success' element={<AuthSuccess/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
       </Routes>
     
     </Router>
