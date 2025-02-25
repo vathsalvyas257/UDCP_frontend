@@ -3,7 +3,7 @@ import './App.css';
 import Home from './components/Home';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
-
+import AuthSuccess from "./components/AuthSuccess";
 import ServicesPage from "./components/ServicesPage";
 
 import RewardsPage from "./components/RewardsPage";
@@ -19,6 +19,7 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/auth" element={<Auth />}/>
+        <Route path='/auth-success' element={<AuthSuccess/>}/>
       </Routes>
     
     </Router>

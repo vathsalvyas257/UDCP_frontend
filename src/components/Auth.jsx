@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook,FaUpload } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice"; // Import login action
 const Auth = () => {
