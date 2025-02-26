@@ -14,6 +14,7 @@ import CreateThreadForm from "./components/threads/CreateThreadForm";
 import ThreadDetails from "./components/threads/ThreadDetails";
 import Clubs from "./components/Dashboard/Clubs";
 import Homepage from "./components/Dashboard/HomePage";
+import Jobs from "./components/Dashboard/Jobs";
 import ProtectedRoute from './components/ProtectedRoutes'; // Import ProtectedRoute
 
 function App() {
@@ -33,12 +34,13 @@ function App() {
           <Route path="schedules" element={<ProtectedRoute><ListOfSchedules /></ProtectedRoute>} />
           <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="clubs" element={<ProtectedRoute><Clubs /></ProtectedRoute>} />
+          <Route path='jobs' element={ <Jobs/> }/>
         </Route>
 
         {/* Unprotected Routes */}
         <Route path="/threads" element={<ThreadList />} />
         <Route path="/thread/:id" element={<ThreadDetails />} />
-        <Route path="/thread/create" element={<CreateThreadForm />} />
+            <Route path="/thread/create" element={<CreateThreadForm />} />
       </Routes>
     </Router>
   );

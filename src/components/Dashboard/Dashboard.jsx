@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar} from '@mui/material';
 import axios from 'axios';
+import Drawer from '@mui/material/Drawer';
 
 // Import icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -47,7 +48,9 @@ const NAV_ITEMS = [
     route: "/dashboard/clubs",
   },
   {
-
+    label: 'Jobs',
+    icon: <GroupIcon />,
+    route: "/dashboard/jobs",
   }
 ];
 
@@ -176,7 +179,7 @@ function Dashboard() {
             position: "fixed",
             top: 0,
             left: 0,
-            background: "linear-gradient(135deg, #bad8f7, #c8e0f7)",
+            background: "linear-gradient(to right, #6dd5ed, #CAF0F8)",
             p: 2,
             display: "flex",
             flexDirection: "column",
@@ -243,6 +246,7 @@ function Dashboard() {
           marginLeft: isMobile ? 0 : "240px",
           overflowY: "auto",
           height: "100vh",
+          background: "linear-gradient(to right, #6dd5ed, #2193b0)",
         }}
       >
         <Outlet />

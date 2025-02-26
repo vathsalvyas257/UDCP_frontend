@@ -44,7 +44,7 @@ const ListOfSchedules = () => {
         {isAuthenticated && (user.role === "admin" || user.role==='faculty') && (
           <Button 
             variant="contained" 
-            color={showUpload ? "primary" : "secondary"} 
+            color={showUpload ? "#F2B5D4" : "#F2B5D4"} 
             onClick={() => setShowUpload(!showUpload)}
           >
             {showUpload ? "Back to List" : "Upload Schedule"}
