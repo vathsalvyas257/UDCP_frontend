@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { 
-  Card, CardContent, CardMedia, Typography, 
-  Grid, Box, Button, Modal, TextField, IconButton, Snackbar, Alert
+import {
+  Card, CardContent, CardMedia, Typography,
+  Grid, Box, Button, Modal, TextField, Snackbar, Alert
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -15,6 +15,8 @@ const Clubs = () => {
   const [open, setOpen] = useState(false);
   const [newClub, setNewClub] = useState({ name: "", logo: null, description: "", facultyCoordinator: "", studentCoordinator: "" });
   const [successMsg, setSuccessMsg] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null); // State for image preview
+  const [imageUploaded, setImageUploaded] = useState(false); // State for image upload confirmation
 
   useEffect(() => {
     fetchClubs();
@@ -31,7 +33,11 @@ const Clubs = () => {
   };
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setImagePreview(null); // Reset image preview on modal close
+    setImageUploaded(false); // Reset image upload confirmation
+  };
 
   const handleChange = (e) => {
     setNewClub({ ...newClub, [e.target.name]: e.target.value });
@@ -41,6 +47,14 @@ const Clubs = () => {
     const file = e.target.files[0];
     if (file) {
       setNewClub({ ...newClub, logo: file });
+
+      // Create a preview URL for the image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setImageUploaded(true); // Set image upload confirmation
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -62,6 +76,10 @@ const Clubs = () => {
       setOpen(false);
       fetchClubs(); // Refresh club list
 
+      // Reset form and image preview
+      setNewClub({ name: "", logo: null, description: "", facultyCoordinator: "", studentCoordinator: "" });
+      setImagePreview(null);
+      setImageUploaded(false);
     } catch (error) {
       console.error("Error creating club:", error);
     }
@@ -108,7 +126,7 @@ const Clubs = () => {
               borderRadius: 2,
               overflow: "hidden"
             }}>
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.5, opacity: 0, rotate: -10 }}
                 animate={{ scale: 1, opacity: 1, rotate: 0 }}
                 exit={{ scale: 0.5, opacity: 0, rotate: 10 }}
@@ -129,6 +147,17 @@ const Clubs = () => {
                       <Button component="span" variant="outlined" startIcon={<UploadFileIcon />}>Upload Logo</Button>
                     </label>
                   </Box>
+                  {/* Image Preview and Upload Confirmation */}
+                  {imagePreview && (
+                    <Box sx={{ mt: 2, textAlign: "center" }}>
+                      <img src={imagePreview} alt="Logo Preview" style={{ maxWidth: "50%", maxHeight: 50, borderRadius: 8 }} />
+                      {imageUploaded && (
+                        <Typography variant="body2" color="success.main" sx={{ mt: 1 }}>
+                          Image uploaded successfully!
+                        </Typography>
+                      )}
+                    </Box>
+                  )}
                   <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
                     <Button onClick={handleClose} sx={{ mr: 1 }}>Cancel</Button>
                     <Button type="submit" variant="contained" color="primary">Create</Button>
