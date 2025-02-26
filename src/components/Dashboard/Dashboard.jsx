@@ -69,6 +69,17 @@ function Dashboard() {
       }
     };
     fetchUserData();
+    const script = document.createElement("script");
+      script.src = "https://www.chatbase.co/embed.min.js";
+      script.id = "kyTSjERga5ap-ZlkxZ5X7";
+      script.domain = "www.chatbase.co";
+      script.async = true;
+    
+      document.body.appendChild(script);
+    
+      return () => {
+        document.body.removeChild(script); // Cleanup on unmount
+      };
   }, []);
 
   const handleItemClick = (label) => {
