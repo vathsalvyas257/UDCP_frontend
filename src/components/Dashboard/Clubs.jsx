@@ -86,10 +86,10 @@ const Clubs = () => {
   };
 
   return (
-    <Box sx={{ p: 4, mt: 6 }}>
+    <Box sx={{ p: 4, mt: 6, ml:4 }}>
       {/* Title + Create Club Button */}
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-        <Typography variant="h3">Our Clubs</Typography>
+        <Typography variant="h4">Our Clubs</Typography>
         <Button variant="contained" color="primary" onClick={handleOpen}>
           Create Club
         </Button>
@@ -97,8 +97,8 @@ const Clubs = () => {
 
       <Grid container spacing={3}>
         {clubs.map((club) => (
-          <Grid item xs={12} sm={6} md={4} key={club.id}>
-            <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2 }}>
+          <Grid item xs={12} sm={6} md={4} key={club.id } >
+            <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor:"#CAF0F8" }}>
               <CardMedia component="img" height="140" image={`${club.logo}`} alt={club.name} />
               <CardContent>
                 <Typography variant="h6" gutterBottom>{club.name}</Typography>
