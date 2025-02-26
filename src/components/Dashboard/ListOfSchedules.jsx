@@ -34,14 +34,14 @@ const ListOfSchedules = () => {
   };
 
   return (
-    <Box p={3} className="mt-16">
+    <Box p={3} className="mt-16 ml-4">
       {/* Header */}
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
         <Typography variant="h4" gutterBottom>
           Updates
         </Typography>
 
-        {isAuthenticated && user.role === "user" && (
+        {isAuthenticated && (user.role === "admin" || user.role==='faculty') && (
           <Button 
             variant="contained" 
             color={showUpload ? "primary" : "secondary"} 
