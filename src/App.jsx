@@ -16,6 +16,8 @@ import ProfilePage from "./components/Dashboard/ProfilePage";
 import ThreadList from "./components/threads/ThreadList";
 import CreateThreadForm from "./components/threads/CreateThreadForm";
 import ThreadDetails from "./components/threads/ThreadDetails";
+import Clubs from "./components/Dashboard/Clubs";
+import Homepage from "./components/Dashboard/HomePage";
 function App() {
   return (
     <Router>
@@ -27,12 +29,10 @@ function App() {
         <Route path="/auth" element={<Auth />}/>
         <Route path='/auth-success' element={<AuthSuccess/>}/>
         <Route path="/dashboard" element={<Dashboard/>}>
+          <Route path='home' element={<Homepage />}/>
           <Route path='schedules' element={<ListOfSchedules/>}/>
           <Route path='profile' element={<ProfilePage/>}/>
-
-
-
-        
+          <Route path='clubs' element={<Clubs/> }/>
         </Route>
         <Route path="/threads" element={<ThreadList />} />
             <Route path="/thread/:id" element={<ThreadDetails />} />

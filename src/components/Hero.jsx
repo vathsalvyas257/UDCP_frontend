@@ -26,13 +26,13 @@ const Hero = () => {
       id: 4,
       name: "Mr. N. Satyanandaram",
       position: "Professor, CSE",
-      photo: "https://via.placeholder.com/150",
+      photo: "https://res.cloudinary.com/dcqd5eimb/image/upload/v1740569171/WhatsApp_Image_2025-02-26_at_16.55.02_nzp0bq.jpg",
     },
     {
       id: 5,
-      name: "Mr. K Vinod Kumar",
-      position: "Assistant Professor, CSE",
-      photo: "https://www.rguktrkv.ac.in/images/staff/CS/2181604.jpg",
+      name: "Mr. R Srinivasulu",
+      position: " Assistant Professor,CSE",
+      photo: "https://res.cloudinary.com/dcqd5eimb/image/upload/v1740569171/WhatsApp_Image_2025-02-26_at_16.54.58_ii7nwn.jpg",
     },
     {
       id: 6,
@@ -46,6 +46,12 @@ const Hero = () => {
       position: " Assistant Professor,ECE",
       photo: "https://www.rguktrkv.ac.in/images/staff/EC/2181901.jpg",
     },
+    {
+      id: 7,
+      name: "Mr. K Vinod Kumar",
+      position: "Assistant Professor, CSE",
+      photo: "https://www.rguktrkv.ac.in/images/staff/CS/2181604.jpg",
+    }
   ];
 
 
