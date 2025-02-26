@@ -13,6 +13,9 @@ import Header from "./components/Header"; // Ensure Header is included
 import Auth from "./components/Auth";
 import ListOfSchedules from "./components/Dashboard/ListOfSchedules";
 import ProfilePage from "./components/Dashboard/ProfilePage";
+import ThreadList from "./components/threads/ThreadList";
+import CreateThreadForm from "./components/threads/CreateThreadForm";
+import ThreadDetails from "./components/threads/ThreadDetails";
 import Clubs from "./components/Dashboard/Clubs";
 import Homepage from "./components/Dashboard/HomePage";
 function App() {
@@ -31,6 +34,9 @@ function App() {
           <Route path='profile' element={<ProfilePage/>}/>
           <Route path='clubs' element={<Clubs/> }/>
         </Route>
+        <Route path="/threads" element={<ThreadList />} />
+            <Route path="/thread/:id" element={<ThreadDetails />} />
+            <Route path="/thread/create" element={<CreateThreadForm />} />
       </Routes>
     
     </Router>

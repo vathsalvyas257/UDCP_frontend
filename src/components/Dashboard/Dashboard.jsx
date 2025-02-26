@@ -12,9 +12,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from "react";
-import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Avatar, IconButton, Drawer } from '@mui/material';
+import { Avatar} from '@mui/material';
 import axios from 'axios';
 
 // Import icons
@@ -24,6 +23,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { GroupIcon } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const NAV_ITEMS = [
   { label: 'Home', icon: <DashboardIcon />, route: "/dashboard/home" },
@@ -32,7 +32,7 @@ const NAV_ITEMS = [
       { label: 'Optimization History', route: "/dashboard/history" },
     ]},
   { label: "Discussion Forum", icon: <CodeIcon />, subItems: [
-      { label: 'Optimize Code', route: "/dashboard/optimize" },
+      { label: 'Optimize Code', route: "/threads" },
       { label: 'Language Conversion', route: "/dashboard/convert" },
     ],
   },
@@ -52,6 +52,7 @@ const NAV_ITEMS = [
 ];
 
 function Dashboard() {
+  const user=useSelector((state)=>state.auth)
   const [openSubNav, setOpenSubNav] = React.useState(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({ name: "", email: "", role: "", profilePicture: "" });

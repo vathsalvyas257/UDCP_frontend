@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';  // to capture the room from the URL
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000'); // Your backend URL
+const socket = io('http://localhost:7777'); // Your backend URL
 
 const ChatRoom = () => {
   const { room } = useParams();  // Capture room name from URL
