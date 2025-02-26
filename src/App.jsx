@@ -26,7 +26,11 @@ function App() {
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/auth" element={<Auth />}/>
         <Route path='/auth-success' element={<AuthSuccess/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}>
+        <Route path="/dashboard" element={
+          <ProtectedRoutes>
+          <Dashboard/>
+          </ProtectedRoutes>
+          }>
           <Route path='home' element={
             <ProtectedRoutes>
             <Homepage />
@@ -79,7 +83,9 @@ function App() {
         {/* <Route path="/threads" element={<ThreadList />} />
             <Route path="/thread/:id" element={<ThreadDetails />} />
             <Route path="/thread/create" element={<CreateThreadForm />} /> */}
-      </Routes>
+      <Route path="*" element={<Home/>}/>
+          
+      </Routes> 
     
     </Router>
   );
