@@ -53,7 +53,7 @@ const ProfilePage = () => {
         alignItems: "center",
         minHeight: "100vh",
         p: 3,
-        backgroundColor: "#ffffff", // Plain white background
+        backgroundColor: "#A2D2FF", // Plain white background
       }}
     >
       <Paper

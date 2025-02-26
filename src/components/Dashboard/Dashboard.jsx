@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar} from '@mui/material';
 import axios from 'axios';
-import Drawer from "@mui/material/Drawer";
+import Drawer from '@mui/material/Drawer';
 
 // Import icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -28,13 +28,8 @@ import { useSelector } from 'react-redux';
 
 const NAV_ITEMS = [
   { label: 'Home', icon: <DashboardIcon />, route: "/dashboard/home" },
-  { label: 'Chat Rooms', icon: <BugReportIcon />, subItems: [
-      { label: 'Debug Code', route: "/dashboard/debug" },
-      { label: 'Optimization History', route: "/dashboard/history" },
-    ]},
   { label: "Discussion Forum", icon: <CodeIcon />, subItems: [
-      { label: 'Optimize Code', route: "/threads" },
-      { label: 'Language Conversion', route: "/dashboard/convert" },
+      { label: 'Thread', route: "/threads" },
     ],
   },
   {
@@ -48,12 +43,14 @@ const NAV_ITEMS = [
     route: "/dashboard/clubs",
   },
   {
-
+    label: 'Jobs',
+    icon: <GroupIcon />,
+    route: "/dashboard/jobs",
   }
 ];
 
 function Dashboard() {
-  const user=useSelector((state)=>state.auth)
+  const user=useSelector((state)=>state.auth.user)
   const [openSubNav, setOpenSubNav] = React.useState(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({ name: "", email: "", role: "", profilePicture: "" });
@@ -153,13 +150,13 @@ function Dashboard() {
           <AccountCircleIcon sx={{ fontSize: 40 }} />
         </Avatar>
         <Typography variant="subtitle1" sx={{ mt: 1 }}>
-          {userData.name}
+          {user?.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {userData.email}
+          {user?.email}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {userData.role}
+          {user?.role}
         </Typography>
       </Box>
     </Box>
@@ -177,7 +174,7 @@ function Dashboard() {
             position: "fixed",
             top: 0,
             left: 0,
-            background: "linear-gradient(135deg, #bad8f7, #c8e0f7)",
+            background: "linear-gradient(to right, #0284C7, #0284C7)",
             p: 2,
             display: "flex",
             flexDirection: "column",
@@ -244,6 +241,7 @@ function Dashboard() {
           marginLeft: isMobile ? 0 : "240px",
           overflowY: "auto",
           height: "100vh",
+          background: "linear-gradient(to right, #F8FAFC, #F8FAFC)",
         }}
       >
         <Outlet />

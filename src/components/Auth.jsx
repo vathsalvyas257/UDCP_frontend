@@ -81,7 +81,7 @@ const Auth = () => {
     let newErrors = { ...errors };
 
     if (name === "password") {
-      const passwordRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+      const passwordRegex = /^(?=.\d)(?=.[A-Z])(?=.[!@#$%^&]).{8,}$/;
       if (!passwordRegex.test(value)) {
         newErrors.password = "Password must be 8+ chars, include a number, uppercase, special char.";
       } else {
