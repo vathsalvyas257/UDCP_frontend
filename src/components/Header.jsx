@@ -49,18 +49,19 @@ const Header = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md p-2 flex justify-between items-center fixed w-full top-0 z-50 px-8 md:px-16">
+    <nav className="bg-white shadow-md p-2 flex justify-between items-center fixed w-full top-0 z-50 px-8 md:px-16" >
       {/* Left - Logo & Title */}
       <div className="flex items-center space-x-6">
         <Link to="/">
           <img
-            src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740547517/1630586594017_be838m.jpg"
+            // src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740547517/1630586594017_be838m.jpg"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
             alt="Logo"
             className="h-11 w-11 rounded-full"
           />
         </Link>
         <Link to="/">
-          <h1 className="text-lg font-bold text-gray-800">UniConnect Hub</h1>
+          <h1 className="text-lg font-bold text-gray-800">UNIVERSE</h1>
         </Link>
         {/* Desktop Home Dropdown */}
         {!isMobile && (
@@ -109,11 +110,11 @@ const Header = () => {
         ))}
         {isAuthenticated ? (
           <div className="flex items-center space-x-4">
-            <img
+            {/* <img
               src={user?.profilePicture || "https://via.placeholder.com/40"} // Use user's profile picture or a placeholder
               alt="Profile"
               className="h-10 w-10 rounded-full"
-            />
+            /> */}
             <button
               onClick={handleLogout}
               className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
@@ -124,7 +125,7 @@ const Header = () => {
         ) : (
           <Link
             to="/auth"
-            className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
+            className="text-white font-medium text-sm px-3 py-1 bg-[#3895f2] rounded hover:bg-[#D94E41] transition"
           >
             Login/Signup
           </Link>

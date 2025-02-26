@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaUpload, FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
-import successSound from "./success.mp3";
-import failureSound from "./failure.mp3";
+import successSound from "./success.mp3"; // Import success sound
+import failureSound from "./failure.mp3"; // Import failure sound
 import Popup from "./Popup";
 
 const Auth = () => {
@@ -21,10 +21,48 @@ const Auth = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-  const [isOTPSent, setIsOTPSent] = useState(false); // State to track if OTP has been sent
+  const [isOTPSent, setIsOTPSent] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
+  // Play success sound
+  const playSuccessSound = () => {
+    const audio = new Audio(successSound);
+    audio.play();
+  };
+
+  // Play failure sound
+  const playFailureSound = () => {
+    const audio = new Audio(failureSound);
+    audio.play();
+  };
+
+  // Show success popup
+  const showSuccessPopup = (message) => {
+    setPopupMessage(message);
+    setIsSuccess(true);
+    setShowPopup(true);
+    playSuccessSound(); // Play success sound
+    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+  };
+
+  // Show failure popup
+  const showFailurePopup = (message) => {
+    setPopupMessage(message);
+    setIsSuccess(false);
+    setShowPopup(true);
+    playFailureSound(); // Play failure sound
+    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+  };
+
+  // Redirect to dashboard if user is logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard/home");
+    }
+  }, [user, navigate]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -115,9 +153,8 @@ const Auth = () => {
         },
         { withCredentials: true }
       );
-      dispatch(login(data.user));
+      dispatch(login(data.user)); // Dispatch login action
       showSuccessPopup("Login successful! Redirecting to dashboard...");
-      setTimeout(() => navigate("/dashboard"), 2000);
     } catch (error) {
       showFailurePopup(error.response?.data?.error || "Login failed");
     }
@@ -246,13 +283,13 @@ const Auth = () => {
                       onChange={handleChange}
                       className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500 flex-grow"
                       required
-                      disabled={!isOTPSent} // Disable OTP input until OTP is sent
+                      disabled={!isOTPSent}
                     />
                     <button
                       type="button"
                       onClick={handleSendOTP}
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-                      disabled={isOTPSent} // Disable button after OTP is sent
+                      disabled={isOTPSent}
                     >
                       {isOTPSent ? "OTP Sent" : "Send OTP"}
                     </button>

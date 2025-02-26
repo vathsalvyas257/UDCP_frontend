@@ -8,9 +8,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
@@ -26,9 +23,10 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import CodeIcon from '@mui/icons-material/Code';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { GroupIcon } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { label: 'Home', icon: <DashboardIcon />, route: "/dashboard" },
+  { label: 'Home', icon: <DashboardIcon />, route: "/dashboard/home" },
   { label: 'Chat Rooms', icon: <BugReportIcon />, subItems: [
       { label: 'Debug Code', route: "/dashboard/debug" },
       { label: 'Optimization History', route: "/dashboard/history" },
@@ -44,9 +42,12 @@ const NAV_ITEMS = [
     route: "/dashboard/schedules",
   },
   {
-    label: 'Chatbot',
-    icon: <ListAltIcon />,
-    route: "/dashboard/chatbot",
+    label: 'Clubs',
+    icon: <GroupIcon />,
+    route: "/dashboard/clubs",
+  },
+  {
+
   }
 ];
 
@@ -98,7 +99,7 @@ function Dashboard() {
   };
 
   const drawerContent = (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%", ml:4 }}>
       <List sx={{ p: 0, mt: 6 }}>
         {NAV_ITEMS.map((item) => (
           <div key={item.label}>
@@ -108,7 +109,7 @@ function Dashboard() {
               sx={{
                 mb: 1,
                 cursor: "pointer",
-                backgroundColor: location.pathname === item.route ? "#e0f7fa" : "transparent",
+                backgroundColor: location.pathname === item.route ? "#6cc5f5" : "transparent",
                 "&:hover": { backgroundColor: "#b2ebf2" },
               }}
             >
@@ -169,7 +170,7 @@ function Dashboard() {
         <Box
           component="nav"
           sx={{
-            width: 240,
+            width: 280,
             height: "100vh",
             position: "fixed",
             top: 0,
@@ -248,28 +249,28 @@ function Dashboard() {
     </Box>
   );
 
-  return (
-    <>
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+  // return (
+  //   <>
+  //   <Box sx={{ display: "flex", minHeight: "100vh" }}>
 
-      {isMobile ? (
-        <>
-          <IconButton sx={{ position: "fixed", top: 10, left: 10, zIndex: 1300 }} onClick={handleDrawerToggle}>
-            <MenuIcon />
-          </IconButton>
-          <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
-            {sidebarContent}
-          </Drawer>
-        </>
-      ) : (
-        <Box component="nav" sx={{ width: 240, flexShrink: 0, position: "fixed", top: 0, left: 0 }}>{sidebarContent}</Box>
-      )}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, marginLeft: isMobile ? 0 : "240px", overflowY: "auto", height: "100vh" }}>
-        <Outlet />
-      </Box>
-    </Box> 
-    </>
-  );
+  //     {isMobile ? (
+  //       <>
+  //         <IconButton sx={{ position: "fixed", top: 10, left: 10, zIndex: 1300 }} onClick={handleDrawerToggle}>
+  //           <MenuIcon />
+  //         </IconButton>
+  //         <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
+  //           {sidebarContent}
+  //         </Drawer>
+  //       </>
+  //     ) : (
+  //       <Box component="nav" sx={{ width: 240, flexShrink: 0, position: "fixed", top: 0, left: 0 }}>{sidebarContent}</Box>
+  //     )}
+  //     <Box component="main" sx={{ flexGrow: 1, p: 3, marginLeft: isMobile ? 0 : "240px", overflowY: "auto", height: "100vh" }}>
+  //       <Outlet />
+  //     </Box>
+  //   </Box> 
+  //   </>
+  // );
 }
 
 export default Dashboard;

@@ -18,7 +18,7 @@ const ShuffleHero = () => {
         <button
           className="text-white font-medium py-2 px-4 rounded transition-all hover:opacity-90 active:scale-95"
           style={{
-            backgroundColor: "#B5651D", // Light brown with a mix of light red
+            backgroundColor: "#2aaff7", // Light brown with a mix of light red
           }}
         >
           Get Started

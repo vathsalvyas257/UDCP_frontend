@@ -13,6 +13,8 @@ import Header from "./components/Header"; // Ensure Header is included
 import Auth from "./components/Auth";
 import ListOfSchedules from "./components/Dashboard/ListOfSchedules";
 import ProfilePage from "./components/Dashboard/ProfilePage";
+import Clubs from "./components/Dashboard/Clubs";
+import Homepage from "./components/Dashboard/HomePage";
 function App() {
   return (
     <Router>
@@ -24,8 +26,10 @@ function App() {
         <Route path="/auth" element={<Auth />}/>
         <Route path='/auth-success' element={<AuthSuccess/>}/>
         <Route path="/dashboard" element={<Dashboard/>}>
+          <Route path='home' element={<Homepage />}/>
           <Route path='schedules' element={<ListOfSchedules/>}/>
           <Route path='profile' element={<ProfilePage/>}/>
+          <Route path='clubs' element={<Clubs/> }/>
         </Route>
       </Routes>
     

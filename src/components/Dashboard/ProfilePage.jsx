@@ -5,7 +5,27 @@ import EditIcon from "@mui/icons-material/Edit";
 import Cookies from "js-cookie";
 
 const ProfilePage = () => {
-  // Get user token from cookies
+
+    const handleLogout = async () => {
+        try {
+          const response = await axios.post("http://localhost:7777/api/auth/logout", {}, {
+            withCredentials: true,
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+          if (response) {
+            console.log('Logged out successfully:');
+            dispatch(logout()); // Dispatch the logout action
+            navigate("/auth");
+          } else {
+            console.log('Error logging out:');
+          }
+        } catch (err) {
+          console.error('Logout Error:', err);
+        }
+      };
+
+    // Get user token from cookies
+
   const userData = Cookies.get("token");
 
   // Decode JWT (assuming it's a JSON Web Token)
@@ -65,7 +85,7 @@ const ProfilePage = () => {
           <Button variant="contained" color="primary" startIcon={<EditIcon />}>
             Edit Profile
           </Button>
-          <Button variant="contained" color="error">
+          <Button variant="contained" color="error" onClick={handleLogout}>
             Logout
           </Button>
         </Box>
