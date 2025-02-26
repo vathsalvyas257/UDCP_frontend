@@ -3,13 +3,15 @@ import './App.css';
 import Home from './components/Home';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
+import ChatRoom from './components/Dashboard/ChatRoom'
 import AuthSuccess from "./components/AuthSuccess";
 import ServicesPage from "./components/ServicesPage";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 import RewardsPage from "./components/RewardsPage";
 
 import Header from "./components/Header"; // Ensure Header is included
 import Auth from "./components/Auth";
+import ListOfSchedules from "./components/Dashboard/ListOfSchedules";
 function App() {
   return (
     <Router>
@@ -20,7 +22,9 @@ function App() {
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/auth" element={<Auth />}/>
         <Route path='/auth-success' element={<AuthSuccess/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}>
+          <Route path='schedules' element={<ListOfSchedules/>}/>
+        </Route>
       </Routes>
     
     </Router>

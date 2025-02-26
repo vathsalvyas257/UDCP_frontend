@@ -32,7 +32,7 @@ const AuthSuccess = () => {
         navigate("/"); // Redirect to dashboard after login
       } catch (error) {
         dispatch(setError(error.message));
-        navigate("/login");
+        navigate("/dashboard");
       } finally {
         dispatch(setLoading(false));
       }
