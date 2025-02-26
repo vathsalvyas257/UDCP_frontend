@@ -11,7 +11,7 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [hoveringHome, setHoveringHome] = useState(false);
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.auth); // Get user and auth status from Redux
   let homeTimeout;
 
@@ -29,7 +29,6 @@ const Header = () => {
     setMenuOpen(false);
   };
 
-
   const handleLogout = async () => {
     try {
       const response = await axios.post("http://localhost:7777/api/auth/logout", {}, {
@@ -38,8 +37,8 @@ const Header = () => {
       });
       if (response) {
         console.log('Logged out successfully:');
+        dispatch(logout()); // Dispatch the logout action
         navigate("/auth");
-        // Redirect user or update UI accordingly
       } else {
         console.log('Error logging out:');
       }
@@ -47,7 +46,6 @@ const Header = () => {
       console.error('Logout Error:', err);
     }
   };
-  
 
   return (
     <nav className="bg-white shadow-md p-2 flex justify-between items-center fixed w-full top-0 z-50 px-8 md:px-16">

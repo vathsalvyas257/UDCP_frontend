@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { Box, Typography, Avatar, Divider, List, ListItem, ListItemIcon, ListItemText, Collapse, useMediaQuery } from '@mui/material';
-import { ExpandLess, ExpandMore, Dashboard as DashboardIcon, BugReport as BugReportIcon, Code as CodeIcon, ListAlt as ListAltIcon } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 // Import icons
@@ -46,16 +54,10 @@ const NAV_ITEMS = [
 ];
 
 function Dashboard() {
-  const [openSubNav, setOpenSubNav] = useState(null);
-  const [user, setUser] = useState(null);
+  const [openSubNav, setOpenSubNav] = React.useState(null);
+  const isMobile = useMediaQuery('(max-width:600px)');
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    axios.get('/api/auth/user', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
-      .then(response => setUser(response.data))
-      .catch(error => console.error("Error fetching user data:", error));
-  }, []);
 
   const handleItemClick = (label) => {
     setOpenSubNav(openSubNav === label ? null : label);
