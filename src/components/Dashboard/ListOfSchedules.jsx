@@ -1,76 +1,89 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, Paper, CircularProgress } from "@mui/material";
-import Cookies from "js-cookie";
+import axios from "axios";
+import { useSelector } from "react-redux"; 
+import { 
+  Box, Typography, Button, Paper, CircularProgress, Grid 
+} from "@mui/material";
 import ScheduleUpload from "./ScheduleUpload";
 
 const ListOfSchedules = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showUpload, setShowUpload] = useState(false); // Toggle between views
+  const [error, setError] = useState(null);
+  const [showUpload, setShowUpload] = useState(false);
 
-//   const token = Cookies.get("token"); // Check if token exists
-    const isStudent = false;
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  
   useEffect(() => {
-    setTimeout(() => {
-      setSchedules([
-        {
-          name: "Schedule 1",
-          description: "Short description about schedule 1.",
-          pdfUrl: "https://example.com/schedule1.pdf",
-        },
-        {
-          name: "Schedule 2",
-          description: "Short description about schedule 2.",
-          pdfUrl: "https://example.com/schedule2.pdf",
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
+    axios.get("http://localhost:7777/schedule")
+      .then(response => {
+        setSchedules(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching schedules:", error);
+        setError("Failed to load schedules. Please try again.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
+
+  const handleViewPDF = (scheduleId) => {
+    const pdfUrl = `http://localhost:7777/schedule/${scheduleId}`; // API route for PDF
+    window.open(pdfUrl, "_blank"); // Open in a new tab
+  };
 
   return (
     <Box p={3} className="mt-16">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h3" gutterBottom>
+      {/* Header */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+        <Typography variant="h4" gutterBottom>
           Updates
         </Typography>
 
-        {/* Toggle between Upload and List View */}
-        {!isStudent && (
+        {isAuthenticated && user.role === "user" && (
           <Button 
             variant="contained" 
             color={showUpload ? "primary" : "secondary"} 
-            onClick={() => setShowUpload(!showUpload)} // Toggle view
+            onClick={() => setShowUpload(!showUpload)}
           >
             {showUpload ? "Back to List" : "Upload Schedule"}
           </Button>
         )}
       </Box>
 
-      {/* Toggle Between Upload Component & List */}
+      {/* Content Section */}
       {showUpload ? (
         <ScheduleUpload />
       ) : loading ? (
-        <CircularProgress />
+        <Box display="flex" justifyContent="center" mt={3}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Typography color="error">{error}</Typography>
       ) : schedules.length === 0 ? (
         <Typography>No schedules available.</Typography>
       ) : (
-        schedules.map((schedule, index) => (
-          <Paper
-            key={index}
-            sx={{ p: 2, mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}
-          >
-            <Box>
-              <Typography variant="h5">{schedule.name}</Typography>
-              <Typography variant="body2" color="textSecondary">
-                {schedule.description}
-              </Typography>
-            </Box>
-            <Button variant="contained" color="primary" onClick={() => window.open(schedule.pdfUrl, "_blank")}>
-              View PDF
-            </Button>
-          </Paper>
-        ))
+        <Grid container spacing={2} mt={2}>
+          {schedules.map((schedule, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column", height: "100%" }}>
+                <Typography variant="h6">{schedule.filename}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {schedule.description}
+                </Typography>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  sx={{ mt: 2 }} 
+                  onClick={() => handleViewPDF(schedule.id)}
+                >
+                  View PDF
+                </Button>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       )}
     </Box>
   );

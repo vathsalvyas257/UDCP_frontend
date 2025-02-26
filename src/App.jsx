@@ -12,7 +12,6 @@ import RewardsPage from "./components/RewardsPage";
 import Header from "./components/Header"; // Ensure Header is included
 import Auth from "./components/Auth";
 import ListOfSchedules from "./components/Dashboard/ListOfSchedules";
-import ScheduleUpload from "./components/Dashboard/ScheduleUpload";
 import ProfilePage from "./components/Dashboard/ProfilePage";
 function App() {
   return (

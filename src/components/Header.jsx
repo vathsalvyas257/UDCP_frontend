@@ -15,6 +15,7 @@ const Header = () => {
   let homeTimeout;
 
   useEffect(() => {
+    
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
