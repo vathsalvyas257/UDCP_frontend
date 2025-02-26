@@ -24,8 +24,8 @@ import CodeIcon from '@mui/icons-material/Code';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { GroupIcon } from 'lucide-react';
-import { useSelector } from 'react-redux';
-
+import { useSelector,useDispatch } from 'react-redux';
+import { login } from '../../redux/authSlice';
 const NAV_ITEMS = [
   { label: 'Home', icon: <DashboardIcon />, route: "/dashboard/home" },
   { label: "Discussion Forum", icon: <CodeIcon />, subItems: [
@@ -57,13 +57,14 @@ function Dashboard() {
   const isMobile = useMediaQuery('(max-width:600px)');
   const navigate = useNavigate();
   const location = useLocation();
-
+  const dispatch=useDispatch();
   // Fetch user data from backend
   React.useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/user'); // Replace with your API endpoint
+        const response = await axios.get('http://localhost:7777/api/user'); // Replace with your API endpoint
         setUserData(response.data);
+        dispatch(login(response.data));
       } catch (error) {
         console.error('Error fetching user data:', error);
       }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: null, // Stores user data when logged in
+  user: JSON.parse(localStorage.getItem("user")) || null, // Stores user data when logged in
   isAuthenticated: false, // Boolean to track authentication status
   loading: false, // Indicates if authentication is in progress
   error: null, // Stores authentication errors (if any)
@@ -13,6 +13,7 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
       state.isAuthenticated = true;
       state.error = null;
     },
