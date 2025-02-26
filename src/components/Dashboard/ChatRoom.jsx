@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaHome, FaInfoCircle, FaCertificate, FaFolder, FaBars } from "react-icons/fa";
 
-function Dashboard() {
+function ChatRoom() {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navigation Bar */}
-      <nav className="bg-blue-600 text-white p-4 flex flex-col justify-start items-start md:h-screen md:w-64">
+      <nav className="bg-green-600 text-white p-4 flex flex-col justify-start items-start md:h-screen md:w-64">
         {/* Logo or Brand */}
         <div className="text-xl font-bold mb-4 hidden md:block">My Dashboard</div>
 
@@ -21,15 +21,15 @@ function Dashboard() {
             <FaHome />
             <span>Home</span>
           </Link>
-          <Link to="/about" className="flex items-center space-x-2 hover:bg-blue-700 p-2 rounded">
+          <Link to="/discussion" className="flex items-center space-x-2 hover:bg-blue-700 p-2 rounded">
             <FaInfoCircle />
             <span>About</span>
           </Link>
-          <Link to="/certifications" className="flex items-center space-x-2 hover:bg-blue-700 p-2 rounded">
+          <Link to="/chatroom" className="flex items-center space-x-2 hover:bg-blue-700 p-2 rounded">
             <FaCertificate />
             <span>Certifications</span>
           </Link>
-          <Link to="/collections" className="flex items-center space-x-2 hover:bg-blue-700 p-2 rounded">
+          <Link to="/clubs" className="flex items-center space-x-2 hover:bg-blue-700 p-2 rounded">
             <FaFolder />
             <span>Collections</span>
           </Link>
@@ -75,4 +75,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default ChatRoom;
