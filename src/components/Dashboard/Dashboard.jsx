@@ -175,7 +175,7 @@ function Dashboard() {
             position: "fixed",
             top: 0,
             left: 0,
-            background: "linear-gradient(135deg, #87CEEB, #047fd6)",
+            background: "linear-gradient(135deg, #bad8f7, #c8e0f7)",
             p: 2,
             display: "flex",
             flexDirection: "column",

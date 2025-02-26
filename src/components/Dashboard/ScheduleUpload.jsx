@@ -127,7 +127,7 @@ const ScheduleUpload = () => {
         onDrop={handleDrop}
       >
         <Typography variant="body1" sx={{ color: dragActive ? "blue" : "black" }}>
-          {file ? file.name : "Drag & Drop a PDF/XLSX or Click to Select"}
+          {file ? file.name : "Drop a PDF/XLSX or Click to Select"}
         </Typography>
       </Box>
 

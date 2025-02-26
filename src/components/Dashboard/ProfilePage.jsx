@@ -6,12 +6,16 @@ import Cookies from "js-cookie";
 import { motion } from "framer-motion"; // Import motion from framer-motion
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { logout } from "../../redux/authSlice"; // Import the logout action
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  console.log(user);
   // Handle logout
   const handleLogout = async () => {
     try {
@@ -39,7 +43,7 @@ const ProfilePage = () => {
   const userData = Cookies.get("token");
 
   // Decode JWT (assuming it's a JSON Web Token)
-  const user = userData ? JSON.parse(atob(userData.split(".")[1])) : null;
+//   const user = userData ? JSON.parse(atob(userData.split(".")[1])) : null;
 
   return (
     <Box
