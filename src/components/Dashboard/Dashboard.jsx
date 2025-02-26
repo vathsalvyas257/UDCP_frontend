@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar} from '@mui/material';
 import axios from 'axios';
+import Drawer from "@mui/material/Drawer";
 
 // Import icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
