@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Card, CardContent, CardMedia, Typography,
-  Grid, Box, Button, Modal, TextField, Snackbar, Alert, CircularProgress
+  Grid, Box, Button, Modal, TextField, Snackbar, Alert, CircularProgress, Skeleton
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -100,9 +100,22 @@ const Clubs = () => {
 
       {/* Loader */}
       {loading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
-          <CircularProgress />
-        </Box>
+        // Skeleton Loading
+        <Grid container spacing={3}>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor: "#CAF0F8" }}>
+                <Skeleton variant="rectangular" width="100%" height={140} />
+                <CardContent>
+                  <Skeleton variant="text" width="80%" height={30} />
+                  <Skeleton variant="text" width="100%" height={60} />
+                  <Skeleton variant="text" width="60%" height={20} />
+                  <Skeleton variant="text" width="60%" height={20} />
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       ) : (
         <Grid container spacing={3}>
           {clubs.map((club) => (
