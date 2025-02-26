@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, Paper, CircularProgress } from "@mui/material";
-import axios from "axios";
+import Cookies from "js-cookie";
+import ScheduleUpload from "./ScheduleUpload";
 
 const ListOfSchedules = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showUpload, setShowUpload] = useState(false); // Toggle between views
 
+//   const token = Cookies.get("token"); // Check if token exists
+    const isStudent = false;
   useEffect(() => {
-    // Simulating API response (Remove this if using a real API)
     setTimeout(() => {
       setSchedules([
         {
@@ -20,54 +23,34 @@ const ListOfSchedules = () => {
           description: "Short description about schedule 2.",
           pdfUrl: "https://example.com/schedule2.pdf",
         },
-        {
-            name: "Schedule 2",
-            description: "Short description about schedule 2.",
-            pdfUrl: "https://example.com/schedule2.pdf",
-          },{
-            name: "Schedule 2",
-            description: "Short description about schedule 2.",
-            pdfUrl: "https://example.com/schedule2.pdf",
-          },{
-            name: "Schedule 2",
-            description: "Short description about schedule 2.",
-            pdfUrl: "https://example.com/schedule2.pdf",
-          },{
-            name: "Schedule 2",
-            description: "Short description about schedule 2.",
-            pdfUrl: "https://example.com/schedule2.pdf",
-          },{
-            name: "Schedule 2",
-            description: "Short description about schedule 2.",
-            pdfUrl: "https://example.com/schedule2.pdf",
-          },{
-            name: "Schedule 2",
-            description: "Short description about schedule 2.",
-            pdfUrl: "https://example.com/schedule2.pdf",
-          },
       ]);
       setLoading(false);
     }, 1000);
-
-    // Uncomment if using an actual API
-    // axios.get("https://your-backend-api.com/schedules")
-    //   .then((response) => {
-    //     setSchedules(response.data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching schedules:", error);
-    //     setLoading(false);
-    //   });
   }, []);
 
   return (
     <Box p={3} className="mt-16">
-      <Typography variant="h3" gutterBottom>
-        Updates
-      </Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Typography variant="h3" gutterBottom>
+          Updates
+        </Typography>
 
-      {loading ? (
+        {/* Toggle between Upload and List View */}
+        {!isStudent && (
+          <Button 
+            variant="contained" 
+            color={showUpload ? "primary" : "secondary"} 
+            onClick={() => setShowUpload(!showUpload)} // Toggle view
+          >
+            {showUpload ? "Back to List" : "Upload Schedule"}
+          </Button>
+        )}
+      </Box>
+
+      {/* Toggle Between Upload Component & List */}
+      {showUpload ? (
+        <ScheduleUpload />
+      ) : loading ? (
         <CircularProgress />
       ) : schedules.length === 0 ? (
         <Typography>No schedules available.</Typography>
