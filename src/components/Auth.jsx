@@ -21,7 +21,7 @@ const Auth = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
-  const [isOTPSent, setIsOTPSent] = useState(false);
+  // const [isOTPSent, setIsOTPSent] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const Auth = () => {
     let newErrors = { ...errors };
 
     if (name === "password") {
-      const passwordRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+      const passwordRegex = /^(?=.\d)(?=.[A-Z])(?=.[!@#$%^&]).{8,}$/;
       if (!passwordRegex.test(value)) {
         newErrors.password = "Password must be 8+ chars, include a number, uppercase, special char.";
       } else {
@@ -99,28 +99,28 @@ const Auth = () => {
   };
 
   // Handle sending OTP
-  const handleSendOTP = async () => {
-    if (!formData.email) {
-      showFailurePopup("Please enter your email to send OTP.");
-      return;
-    }
+  // const handleSendOTP = async () => {
+  //   if (!formData.email) {
+  //     showFailurePopup("Please enter your email to send OTP.");
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.post("http://localhost:7777/api/auth/send-otp", {
-        email: formData.email,
-      });
-      setIsOTPSent(true); // Mark OTP as sent
-      showSuccessPopup("OTP sent successfully! Check your email.");
-    } catch (error) {
-      showFailurePopup(error.response?.data?.error || "Failed to send OTP.");
-    }
-  };
+  //   try {
+  //     const response = await axios.post("http://localhost:7777/api/auth/send-otp", {
+  //       email: formData.email,
+  //     });
+  //     setIsOTPSent(true); // Mark OTP as sent
+  //     showSuccessPopup("OTP sent successfully! Check your email.");
+  //   } catch (error) {
+  //     showFailurePopup(error.response?.data?.error || "Failed to send OTP.");
+  //   }
+  // };
 
   // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image || !formData.otp) {
-      showFailurePopup("Please fill all fields, upload an image, and enter OTP.");
+    if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image ) {
+      showFailurePopup("Please fill all fields, upload an image");
       return;
     }
     try {
@@ -275,7 +275,7 @@ const Auth = () => {
                   </div>
                   {errors.rePassword && <p className="text-red-500 text-xs whitespace-nowrap">{errors.rePassword}</p>}
                   <div className="flex space-x-2">
-                    <input
+                    {/* <input
                       type="text"
                       name="otp"
                       placeholder="Enter OTP"
@@ -284,15 +284,15 @@ const Auth = () => {
                       className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500 flex-grow"
                       required
                       disabled={!isOTPSent}
-                    />
-                    <button
+                    /> */}
+                    {/* <button
                       type="button"
                       onClick={handleSendOTP}
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
                       disabled={isOTPSent}
                     >
                       {isOTPSent ? "OTP Sent" : "Send OTP"}
-                    </button>
+                    </button> */}
                   </div>
                 </>
               )}
