@@ -79,7 +79,7 @@ const ScheduleUpload = () => {
   
 
   return (
-    <Paper sx={{ p: 3, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor:"#CAF0F8" }}>
+    <Paper sx={{ p: 3, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor:"#" }}>
       <Typography variant="h5" gutterBottom>
         Upload New Schedule
       </Typography>

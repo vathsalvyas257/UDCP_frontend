@@ -62,7 +62,7 @@ const Header = () => {
           <img
             // src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740547517/1630586594017_be838m.jpg"
             // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
-            src="Q.png"
+            src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740603461/WhatsApp_Image_2025-02-27_at_02.26.16_jxjzfv.jpg"
             alt="Logo"
             className="h-11 w-11 rounded-full"
           />

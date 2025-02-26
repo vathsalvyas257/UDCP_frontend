@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Card, CardContent, Button, TextField, Modal, Divider } from "@mui/material";
+import { Box, Typography, Card, CardContent, Button, TextField, Divider } from "@mui/material";
 import { keyframes } from "@emotion/react";
 
 // Define keyframes for animations
@@ -23,6 +23,24 @@ const float = keyframes`
   }
   100% {
     transform: translateY(0);
+  }
+`;
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
   }
 `;
 
@@ -51,7 +69,9 @@ const Jobs = () => {
         p: 4,
         mt: 6,
         minHeight: "100vh",
-        backgroundColor: "#f9fafb", // Light background
+        backgroundColor: "#f0f8ff", // Light sky blue background for the entire page
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       {/* Header with Job-Related Icon */}
@@ -133,66 +153,67 @@ const Jobs = () => {
         </Button>
       </Box>
 
-      {/* Add Job Modal */}
-      <Modal open={showForm} onClose={() => setShowForm(false)}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "#fff",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: "12px",
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2, color: "#1976d2" }}>
-            Add New Job
-          </Typography>
-          <TextField
-            fullWidth
-            label="Job Title"
+      {/* Slide-In Job Form */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          height: "100vh",
+          width: "400px",
+          bgcolor: "#e6f7ff", // Light sky blue background for the form
+          boxShadow: "0 0 24px rgba(0, 0, 0, 0.2)",
+          transform: showForm ? "translateX(0)" : "translateX(100%)",
+          animation: `${showForm ? slideIn : slideOut} 0.5s ease-in-out`,
+          transition: "transform 0.5s ease-in-out",
+          zIndex: 1000,
+          p: 4,
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2, color: "#1976d2" }}>
+          Add New Job
+        </Typography>
+        <TextField
+          fullWidth
+          label="Job Title"
+          variant="outlined"
+          sx={{ mb: 2, backgroundColor: "#fff" }} // White background for input fields
+          value={newJob.title}
+          onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
+        />
+        <TextField
+          fullWidth
+          label="Company Name"
+          variant="outlined"
+          sx={{ mb: 2, backgroundColor: "#fff" }} // White background for input fields
+          value={newJob.company}
+          onChange={(e) => setNewJob({ ...newJob, company: e.target.value })}
+        />
+        <TextField
+          fullWidth
+          label="Application Link"
+          variant="outlined"
+          sx={{ mb: 2, backgroundColor: "#fff" }} // White background for input fields
+          value={newJob.link}
+          onChange={(e) => setNewJob({ ...newJob, link: e.target.value })}
+        />
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+          <Button
             variant="outlined"
-            sx={{ mb: 2 }}
-            value={newJob.title}
-            onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
-          />
-          <TextField
-            fullWidth
-            label="Company Name"
-            variant="outlined"
-            sx={{ mb: 2 }}
-            value={newJob.company}
-            onChange={(e) => setNewJob({ ...newJob, company: e.target.value })}
-          />
-          <TextField
-            fullWidth
-            label="Application Link"
-            variant="outlined"
-            sx={{ mb: 2 }}
-            value={newJob.link}
-            onChange={(e) => setNewJob({ ...newJob, link: e.target.value })}
-          />
-          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-            <Button
-              variant="outlined"
-              sx={{ color: "#1976d2", borderColor: "#1976d2" }}
-              onClick={() => setShowForm(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "#1976d2", color: "#fff" }}
-              onClick={addJob}
-            >
-              Add
-            </Button>
-          </Box>
+            sx={{ color: "#1976d2", borderColor: "#1976d2" }}
+            onClick={() => setShowForm(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "#1976d2", color: "#fff" }}
+            onClick={addJob}
+          >
+            Add
+          </Button>
         </Box>
-      </Modal>
+      </Box>
     </Box>
   );
 };
