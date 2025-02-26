@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice"; // Import the logout action
+import axios from "axios";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [homeMenuOpen, setHomeMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [hoveringHome, setHoveringHome] = useState(false);
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
+  const { user, isAuthenticated } = useSelector((state) => state.auth); // Get user and auth status from Redux
   let homeTimeout;
 
   useEffect(() => {
@@ -22,6 +28,26 @@ const Header = () => {
     setHomeMenuOpen(false);
     setMenuOpen(false);
   };
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:7777/api/auth/logout", {}, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (response) {
+        console.log('Logged out successfully:');
+        navigate("/auth");
+        // Redirect user or update UI accordingly
+      } else {
+        console.log('Error logging out:');
+      }
+    } catch (err) {
+      console.error('Logout Error:', err);
+    }
+  };
+  
 
   return (
     <nav className="bg-white shadow-md p-2 flex justify-between items-center fixed w-full top-0 z-50 px-8 md:px-16">
@@ -82,12 +108,28 @@ const Header = () => {
             Our {link.charAt(0).toUpperCase() + link.slice(1)}
           </Link>
         ))}
-        <Link
-          to="/auth"
-          className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
-        >
-          Login/Signup
-        </Link>
+        {isAuthenticated ? (
+          <div className="flex items-center space-x-4">
+            <img
+              src={user?.profilePicture || "https://via.placeholder.com/40"} // Use user's profile picture or a placeholder
+              alt="Profile"
+              className="h-10 w-10 rounded-full"
+            />
+            <button
+              onClick={handleLogout}
+              className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link
+            to="/auth"
+            className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
+          >
+            Login/Signup
+          </Link>
+        )}
       </div>
 
       {/* Mobile Menu - Hamburger Icon */}
@@ -151,13 +193,22 @@ const Header = () => {
               Our {link.charAt(0).toUpperCase() + link.slice(1)}
             </Link>
           ))}
-          <Link
-            to="/auth"
-            className="bg-[#B5651D] text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
-            onClick={() => setMenuOpen(false)}
-          >
-            Login/Signup
-          </Link>
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="bg-[#B5651D] text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              className="bg-[#B5651D] text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              Login/Signup
+            </Link>
+          )}
         </div>
       </div>
     </nav>

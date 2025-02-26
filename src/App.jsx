@@ -12,6 +12,8 @@ import RewardsPage from "./components/RewardsPage";
 import Header from "./components/Header"; // Ensure Header is included
 import Auth from "./components/Auth";
 import ListOfSchedules from "./components/Dashboard/ListOfSchedules";
+import ScheduleUpload from "./components/Dashboard/ScheduleUpload";
+import ProfilePage from "./components/Dashboard/ProfilePage";
 function App() {
   return (
     <Router>
@@ -24,6 +26,7 @@ function App() {
         <Route path='/auth-success' element={<AuthSuccess/>}/>
         <Route path="/dashboard" element={<Dashboard/>}>
           <Route path='schedules' element={<ListOfSchedules/>}/>
+          <Route path='profile' element={<ProfilePage/>}/>
         </Route>
       </Routes>
     
