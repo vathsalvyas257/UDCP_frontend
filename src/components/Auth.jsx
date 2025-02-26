@@ -2,25 +2,26 @@ import { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook, FaUpload, FaKey, FaEye, FaEyeSlash } from "react-icons/fa"; // Added FaEye and FaEyeSlash
+import { FaFacebook, FaUpload, FaKey, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/authSlice"; // Import login action
+import { login } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
-import successSound from "./success.mp3"; // Import success sound
-import failureSound from "./failure.mp3"; // Import failure sound
-import Popup from "./Popup"; // Import Popup component
+import successSound from "./success.mp3";
+import failureSound from "./failure.mp3";
+import Popup from "./Popup";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null, otp: "" });
   const [errors, setErrors] = useState({});
   const [shake, setShake] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null); // For image preview
-  const [showPassword, setShowPassword] = useState(false); // For password visibility
-  const [showRePassword, setShowRePassword] = useState(false); // For re-enter password visibility
+  const [imagePreview, setImagePreview] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
+  const [isOTPSent, setIsOTPSent] = useState(false); // State to track if OTP has been sent
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Auth = () => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setFormData({ ...formData, [name]: files[0] });
-      setImagePreview(URL.createObjectURL(files[0])); // Set image preview
+      setImagePreview(URL.createObjectURL(files[0]));
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -59,41 +60,29 @@ const Auth = () => {
     setErrors(newErrors);
   };
 
-  // Play success sound
-  const playSuccessSound = () => {
-    const audio = new Audio(successSound);
-    audio.play();
-  };
+  // Handle sending OTP
+  const handleSendOTP = async () => {
+    if (!formData.email) {
+      showFailurePopup("Please enter your email to send OTP.");
+      return;
+    }
 
-  // Play failure sound
-  const playFailureSound = () => {
-    const audio = new Audio(failureSound);
-    audio.play();
-  };
-
-  // Show success popup
-  const showSuccessPopup = (message) => {
-    setPopupMessage(message);
-    setIsSuccess(true);
-    setShowPopup(true);
-    playSuccessSound(); // Play success sound
-    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
-  };
-
-  // Show failure popup
-  const showFailurePopup = (message) => {
-    setPopupMessage(message);
-    setIsSuccess(false);
-    setShowPopup(true);
-    playFailureSound(); // Play failure sound
-    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+    try {
+      const response = await axios.post("http://localhost:7777/api/auth/send-otp", {
+        email: formData.email,
+      });
+      setIsOTPSent(true); // Mark OTP as sent
+      showSuccessPopup("OTP sent successfully! Check your email.");
+    } catch (error) {
+      showFailurePopup(error.response?.data?.error || "Failed to send OTP.");
+    }
   };
 
   // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image) {
-      showFailurePopup("Please fill all fields and upload an image");
+    if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image || !formData.otp) {
+      showFailurePopup("Please fill all fields, upload an image, and enter OTP.");
       return;
     }
     try {
@@ -128,7 +117,7 @@ const Auth = () => {
       );
       dispatch(login(data.user));
       showSuccessPopup("Login successful! Redirecting to dashboard...");
-      setTimeout(() => navigate("/dashboard"), 2000); // Redirect after 2 seconds
+      setTimeout(() => navigate("/dashboard"), 2000);
     } catch (error) {
       showFailurePopup(error.response?.data?.error || "Login failed");
     }
@@ -161,7 +150,7 @@ const Auth = () => {
               onClick={() => setIsLogin(!isLogin)}
               className="mt-5 px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition flex items-center space-x-2"
             >
-              <FaKey className="inline-block" /> {/* Key Icon */}
+              <FaKey className="inline-block" />
               <span>{isLogin ? "Sign Up" : "Login"}</span>
             </button>
           </motion.div>
@@ -180,7 +169,7 @@ const Auth = () => {
             }`}
           >
             <h2 className="text-2xl font-semibold text-center mb-5 flex items-center justify-center space-x-2">
-              <FaKey className="inline-block" /> {/* Key Icon */}
+              <FaKey className="inline-block" />
               <span>{isLogin ? "Login" : "Sign Up"}</span>
             </h2>
             <form onSubmit={isLogin ? handleLogin : handleSignup} className="flex flex-col space-y-4">
@@ -221,7 +210,7 @@ const Auth = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle Eye Icon */}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
               {errors.password && <p className="text-red-500 text-xs whitespace-nowrap">{errors.password}</p>}
@@ -244,10 +233,30 @@ const Auth = () => {
                       onClick={() => setShowRePassword(!showRePassword)}
                       className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
                     >
-                      {showRePassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle Eye Icon */}
+                      {showRePassword ? <FaEyeSlash /> : <FaEye />}
                     </button>
                   </div>
                   {errors.rePassword && <p className="text-red-500 text-xs whitespace-nowrap">{errors.rePassword}</p>}
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      name="otp"
+                      placeholder="Enter OTP"
+                      value={formData.otp}
+                      onChange={handleChange}
+                      className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500 flex-grow"
+                      required
+                      disabled={!isOTPSent} // Disable OTP input until OTP is sent
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSendOTP}
+                      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                      disabled={isOTPSent} // Disable button after OTP is sent
+                    >
+                      {isOTPSent ? "OTP Sent" : "Send OTP"}
+                    </button>
+                  </div>
                 </>
               )}
               {!isLogin && (
@@ -277,7 +286,7 @@ const Auth = () => {
                 type="submit"
                 className="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center justify-center space-x-2"
               >
-                <FaKey className="inline-block" /> {/* Key Icon */}
+                <FaKey className="inline-block" />
                 <span>{isLogin ? "Login" : "Sign Up"}</span>
               </button>
               <div className="flex justify-center space-x-4 mt-3">
