@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Card, CardContent, Grid, Paper, Divider } from "@mui/material";
 import { keyframes } from "@emotion/react";
+import StatsSection from "./StatsSection";
 
 // Define keyframes for animations
 const fadeIn = keyframes`
@@ -83,6 +84,7 @@ const Homepage = () => {
             </Card>
           </Grid>
         ))}
+        <StatsSection/>
       </Grid>
     </Box>
   );

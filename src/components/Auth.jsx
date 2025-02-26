@@ -81,7 +81,7 @@ const Auth = () => {
     let newErrors = { ...errors };
 
     if (name === "password") {
-      const passwordRegex = /^(?=.\d)(?=.[A-Z])(?=.[!@#$%^&]).{8,}$/;
+      const passwordRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
       if (!passwordRegex.test(value)) {
         newErrors.password = "Password must be 8+ chars, include a number, uppercase, special char.";
       } else {
@@ -321,7 +321,7 @@ const Auth = () => {
               )}
               <button
                 type="submit"
-                className="-gradient-to-br from-blue-500 to-blue-600bg text-white py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center justify-center space-x-2"
+                className="bg-gradient-to-br from-blue-500 to-blue-600 text-white py-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition flex items-center justify-center space-x-2"
               >
                 <FaKey className="inline-block" />
                 <span>{isLogin ? "Login" : "Sign Up"}</span>

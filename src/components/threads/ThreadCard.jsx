@@ -40,7 +40,7 @@ export default function ThreadCard({ thread }) {
       {/* View Discussion Button */}
       <div className="flex justify-end">
         <Link
-          to={`/thread/${thread._id}`}
+          to={`/dashboard/thread/${thread._id}`}
           className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
         >
           View Discussion

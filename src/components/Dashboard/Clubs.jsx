@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Card, CardContent, CardMedia, Typography,
-  Grid, Box, Button, Modal, TextField, Snackbar, Alert
+  Grid, Box, Button, Modal, TextField, Snackbar, Alert, CircularProgress
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -17,6 +17,7 @@ const Clubs = () => {
   const [successMsg, setSuccessMsg] = useState(false);
   const [imagePreview, setImagePreview] = useState(null); // State for image preview
   const [imageUploaded, setImageUploaded] = useState(false); // State for image upload confirmation
+  const [loading, setLoading] = useState(true); // State for loading clubs
 
   useEffect(() => {
     fetchClubs();
@@ -29,6 +30,8 @@ const Clubs = () => {
       setClubs(response.data);
     } catch (error) {
       console.error("Error fetching clubs:", error);
+    } finally {
+      setLoading(false); // Stop loading after fetching data
     }
   };
 
@@ -73,8 +76,8 @@ const Clubs = () => {
       });
 
       setSuccessMsg(true);
-      setOpen(false);
-      fetchClubs(); // Refresh club list
+      handleClose(); // Close the modal
+      fetchClubs(); // Refresh the club list
 
       // Reset form and image preview
       setNewClub({ name: "", logo: null, description: "", facultyCoordinator: "", studentCoordinator: "" });
@@ -86,7 +89,7 @@ const Clubs = () => {
   };
 
   return (
-    <Box sx={{ p: 4, mt: 6, ml:4 }}>
+    <Box sx={{ p: 4, mt: 6, ml: 4 }}>
       {/* Title + Create Club Button */}
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
         <Typography variant="h4">Our Clubs</Typography>
@@ -95,21 +98,28 @@ const Clubs = () => {
         </Button>
       </Box>
 
-      <Grid container spacing={3}>
-        {clubs.map((club) => (
-          <Grid item xs={12} sm={6} md={4} key={club.id } >
-            <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor:"#CAF0F8" }}>
-              <CardMedia component="img" height="140" image={`${club.logo}`} alt={club.name} />
-              <CardContent>
-                <Typography variant="h6" gutterBottom>{club.name}</Typography>
-                <Typography variant="body2" color="text.secondary">{club.description}</Typography>
-                <Typography variant="subtitle2" color="primary" mt={1}>Faculty: {club.facultyCoordinator}</Typography>
-                <Typography variant="subtitle2" color="primary">Student: {club.studentCoordinator}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      {/* Loader */}
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Grid container spacing={3}>
+          {clubs.map((club) => (
+            <Grid item xs={12} sm={6} md={4} key={club.id}>
+              <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor: "#CAF0F8" }}>
+                <CardMedia component="img" height="140" image={`${club.logo}`} alt={club.name} />
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>{club.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">{club.description}</Typography>
+                  <Typography variant="subtitle2" color="primary" mt={1}>Faculty: {club.facultyCoordinator}</Typography>
+                  <Typography variant="subtitle2" color="primary">Student: {club.studentCoordinator}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       {/* Add Club Modal */}
       <AnimatePresence>

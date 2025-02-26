@@ -29,7 +29,7 @@ import { useSelector } from 'react-redux';
 const NAV_ITEMS = [
   { label: 'Home', icon: <DashboardIcon />, route: "/dashboard/home" },
   { label: "Discussion Forum", icon: <CodeIcon />, subItems: [
-      { label: 'Thread', route: "/threads" },
+      { label: 'Thread', route: "/dashboard/threads" },
     ],
   },
   {

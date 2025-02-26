@@ -35,10 +35,13 @@ function App() {
           <Route path='profile' element={<ProfilePage/>}/>
           <Route path='clubs' element={<Clubs/> }/>
           <Route path='jobs' element={<Jobs/>}/>
+          <Route path="threads" element={<ThreadList />} />
+            <Route path="thread/:id" element={<ThreadDetails />} />
+            <Route path="thread/create" element={<CreateThreadForm />} />
         </Route>
-        <Route path="/threads" element={<ThreadList />} />
+        {/* <Route path="/threads" element={<ThreadList />} />
             <Route path="/thread/:id" element={<ThreadDetails />} />
-            <Route path="/thread/create" element={<CreateThreadForm />} />
+            <Route path="/thread/create" element={<CreateThreadForm />} /> */}
       </Routes>
     
     </Router>
