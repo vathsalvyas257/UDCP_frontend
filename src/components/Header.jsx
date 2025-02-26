@@ -61,7 +61,8 @@ const Header = () => {
         <Link to="/">
           <img
             // src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740547517/1630586594017_be838m.jpg"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
+            // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
+            src="Q.png"
             alt="Logo"
             className="h-11 w-11 rounded-full"
           />

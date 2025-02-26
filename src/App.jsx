@@ -19,6 +19,7 @@ import ThreadDetails from "./components/threads/ThreadDetails";
 import Clubs from "./components/Dashboard/Clubs";
 import Homepage from "./components/Dashboard/HomePage";
 import Jobs from "./components/Dashboard/Jobs";
+import Alumni from "./components/Dashboard/Alumni";
 function App() {
   return (
     <Router>
@@ -36,8 +37,9 @@ function App() {
           <Route path='clubs' element={<Clubs/> }/>
           <Route path='jobs' element={<Jobs/>}/>
           <Route path="threads" element={<ThreadList />} />
-            <Route path="thread/:id" element={<ThreadDetails />} />
-            <Route path="thread/create" element={<CreateThreadForm />} />
+          <Route path="thread/:id" element={<ThreadDetails />} />
+          <Route path="thread/create" element={<CreateThreadForm />} />
+          <Route path="alumni" element={<Alumni/>}/>
         </Route>
         {/* <Route path="/threads" element={<ThreadList />} />
             <Route path="/thread/:id" element={<ThreadDetails />} />

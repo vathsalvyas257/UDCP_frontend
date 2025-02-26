@@ -1,4 +1,33 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Box, Typography, Card, CardContent, Button, TextField, Modal, Divider } from "@mui/material";
+import { keyframes } from "@emotion/react";
+
+// Define keyframes for animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const float = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+// Job-related icon (replace with your own image URL or icon)
+const jobIcon = "https://cdn-icons-png.flaticon.com/512/3135/3135810.png";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([
@@ -17,59 +46,154 @@ const Jobs = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto mt-16">
-      <h2 className="text-2xl font-bold mb-4 text-center">Job Updates</h2>
-      <div className="space-y-4">
-        {jobs.map((job) => (
-          <div key={job.id} className="p-4 border rounded-lg shadow-md bg-white flex justify-between items-center">
-            <div>
-              <h3 className="text-lg font-semibold">{job.title}</h3>
-              <p className="text-gray-500">{job.company}</p>
-            </div>
-            <a href={job.link} target="_blank" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Apply</a>
-          </div>
-        ))}
-      </div>
-      <button 
-        className="mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-green-600"
-        onClick={() => setShowForm(true)}
-      >
-        Create Job Update
-      </button>
+    <Box
+      sx={{
+        p: 4,
+        mt: 6,
+        minHeight: "100vh",
+        backgroundColor: "#f9fafb", // Light background
+      }}
+    >
+      {/* Header with Job-Related Icon */}
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 4 }}>
+        <Typography variant="h4" gutterBottom sx={{ color: "#1976d2", animation: `${fadeIn} 1s ease-out`, mr: 2 }}>
+          Job Updates
+        </Typography>
+        <Box
+          component="img"
+          src={jobIcon}
+          alt="Job Icon"
+          sx={{
+            width: "40px",
+            height: "40px",
+            animation: `${float} 6s ease-in-out infinite`,
+          }}
+        />
+      </Box>
 
-      {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg font-bold mb-4">Add New Job</h3>
-            <input 
-              type="text" 
-              placeholder="Job Title" 
-              className="w-full p-2 border rounded mb-2" 
-              value={newJob.title} 
-              onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
-            />
-            <input 
-              type="text" 
-              placeholder="Company Name" 
-              className="w-full p-2 border rounded mb-2" 
-              value={newJob.company} 
-              onChange={(e) => setNewJob({ ...newJob, company: e.target.value })}
-            />
-            <input 
-              type="text" 
-              placeholder="Application Link" 
-              className="w-full p-2 border rounded mb-2" 
-              value={newJob.link} 
-              onChange={(e) => setNewJob({ ...newJob, link: e.target.value })}
-            />
-            <div className="flex justify-between mt-4">
-              <button className="bg-gray-500 text-white px-4 py-2 rounded-lg" onClick={() => setShowForm(false)}>Cancel</button>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg" onClick={addJob}>Add</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      <Divider sx={{ mb: 2, borderColor: "#e0e0e0" }} />
+
+      {/* Job Listings */}
+      <Box sx={{ maxWidth: "800px", mx: "auto" }}>
+        {jobs.map((job, index) => (
+          <Card
+            key={job.id}
+            sx={{
+              mb: 2,
+              p: 2,
+              backgroundColor: "#fff",
+              borderRadius: "12px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+              animation: `${fadeIn} 0.5s ease-out ${index * 0.2}s`,
+              "&:hover": {
+                boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+                transform: "scale(1.03)",
+              },
+              transition: "0.3s",
+            }}
+          >
+            <CardContent sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <Box>
+                <Typography variant="h6" sx={{ color: "#1976d2" }}>
+                  {job.title}
+                </Typography>
+                <Typography variant="subtitle2" sx={{ color: "#757575" }}>
+                  {job.company}
+                </Typography>
+              </Box>
+              <Button
+                variant="contained"
+                href={job.link}
+                target="_blank"
+                sx={{
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
+                  "&:hover": { backgroundColor: "#1565c0" },
+                }}
+              >
+                Apply
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+
+      {/* Add Job Button */}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#1976d2",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#1565c0" },
+          }}
+          onClick={() => setShowForm(true)}
+        >
+          Create Job Update
+        </Button>
+      </Box>
+
+      {/* Add Job Modal */}
+      <Modal open={showForm} onClose={() => setShowForm(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "#fff",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: "12px",
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2, color: "#1976d2" }}>
+            Add New Job
+          </Typography>
+          <TextField
+            fullWidth
+            label="Job Title"
+            variant="outlined"
+            sx={{ mb: 2 }}
+            value={newJob.title}
+            onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Company Name"
+            variant="outlined"
+            sx={{ mb: 2 }}
+            value={newJob.company}
+            onChange={(e) => setNewJob({ ...newJob, company: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Application Link"
+            variant="outlined"
+            sx={{ mb: 2 }}
+            value={newJob.link}
+            onChange={(e) => setNewJob({ ...newJob, link: e.target.value })}
+          />
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+            <Button
+              variant="outlined"
+              sx={{ color: "#1976d2", borderColor: "#1976d2" }}
+              onClick={() => setShowForm(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#1976d2", color: "#fff" }}
+              onClick={addJob}
+            >
+              Add
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+    </Box>
   );
 };
 
