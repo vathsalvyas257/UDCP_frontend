@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice"; // Import the logout action
+import axios from "axios";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,26 +30,24 @@ const Header = () => {
   };
 
 
-const handleLogout = async () => {
-  try {
-    // Make the API call to logout
-    // const response = await axios.post('http://localhost:7777/api/auth/logout', {}, { withCredentials: true });
-
-    // If the response is successful
-    // if (response.status === 200) {
-      await dispatch(logout()); // Dispatch the logout action to clear the state
-      setMenuOpen(false); // Close the mobile menu after logout
-      navigate("/"); // Redirect to the homepage or login page
-    // } else {
-      console.error("Logout failed:", response.data.message);
-      // Handle error if needed (e.g., show error message to user)
-    // }
-  } catch (error) {
-    console.error("Error during logout:", error);
-    // Handle error if needed (e.g., show error message to user)
-  }
-};
-
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:7777/api/auth/logout", {}, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (response) {
+        console.log('Logged out successfully:');
+        navigate("/auth");
+        // Redirect user or update UI accordingly
+      } else {
+        console.log('Error logging out:');
+      }
+    } catch (err) {
+      console.error('Logout Error:', err);
+    }
+  };
+  
 
   return (
     <nav className="bg-white shadow-md p-2 flex justify-between items-center fixed w-full top-0 z-50 px-8 md:px-16">
