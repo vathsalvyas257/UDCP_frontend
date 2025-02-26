@@ -30,7 +30,6 @@ const NAV_ITEMS = [
   { label: 'Home', icon: <DashboardIcon />, route: "/dashboard/home" },
   { label: "Discussion Forum", icon: <CodeIcon />, subItems: [
       { label: 'Thread', route: "/threads" },
-     
     ],
   },
   {
@@ -151,13 +150,13 @@ function Dashboard() {
           <AccountCircleIcon sx={{ fontSize: 40 }} />
         </Avatar>
         <Typography variant="subtitle1" sx={{ mt: 1 }}>
-          {user.name}
+          {user?.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {user.email}
+          {user?.email}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {user.role}
+          {user?.role}
         </Typography>
       </Box>
     </Box>
@@ -175,7 +174,7 @@ function Dashboard() {
             position: "fixed",
             top: 0,
             left: 0,
-            background: "linear-gradient(to right, #84c6f5, #84c6f5)",
+            background: "linear-gradient(to right, #0284C7, #0284C7)",
             p: 2,
             display: "flex",
             flexDirection: "column",

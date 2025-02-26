@@ -2,8 +2,8 @@ import { useState } from "react";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([
-    { id: 1, title: "Frontend Developer", company: "TechCorp", link: "#" },
-    { id: 2, title: "Backend Developer", company: "InnovateX", link: "#" },
+    { id: 1, title: "Frontend Developer", company: "TechCorp", link: "https://forms.gle/baTScPJMGp6AZoM6A" },
+    { id: 2, title: "Backend Developer", company: "InnovateX", link: "https://forms.gle/baTScPJMGp6AZoM6A" },
   ]);
   const [showForm, setShowForm] = useState(false);
   const [newJob, setNewJob] = useState({ title: "", company: "", link: "" });
@@ -26,7 +26,7 @@ const Jobs = () => {
               <h3 className="text-lg font-semibold">{job.title}</h3>
               <p className="text-gray-500">{job.company}</p>
             </div>
-            <a href={job.link} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Apply</a>
+            <a href={job.link} target="_blank" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Apply</a>
           </div>
         ))}
       </div>
