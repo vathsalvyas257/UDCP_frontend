@@ -154,6 +154,7 @@ const Auth = () => {
         { withCredentials: true }
       );
       dispatch(login(data.user)); // Dispatch login action
+      localStorage.setItem("token",data.token);
       showSuccessPopup("Login successful! Redirecting to dashboard...");
       navigate(`${import.meta.env.VITE_FRONTEND_URL}/dashboard/home`);
     } catch (error) {

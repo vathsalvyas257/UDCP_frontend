@@ -18,7 +18,7 @@ const Header = () => {
   let homeTimeout;
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = localStorage.getItem("token");
     setToken(token);
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -42,6 +42,7 @@ const Header = () => {
       if (response) {
         console.log('Logged out successfully:');
         dispatch(logout());
+        localStorage.removeItem("token");
         setToken(null); // Dispatch the logout action
         navigate("/auth");
       } else {
