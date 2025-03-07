@@ -155,7 +155,7 @@ const Auth = () => {
       );
       dispatch(login(data.user)); // Dispatch login action
       showSuccessPopup("Login successful! Redirecting to dashboard...");
-      navigate("/dashboard/home");
+      navigate(`${import.meta.env.VITE_FRONTEND_URL}/dashboard/home`);
     } catch (error) {
       showFailurePopup(error.response?.data?.error || "Login failed");
     }

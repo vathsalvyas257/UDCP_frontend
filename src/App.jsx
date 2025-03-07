@@ -28,16 +28,16 @@ function App() {
         <Route path="/auth" element={<Auth />}/>
         <Route path='/auth-success' element={<AuthSuccess/>}/>
         <Route path="/dashboard" element={
-          <ProtectedRoutes>
+          // <ProtectedRoutes>
           <Dashboard/>
-          </ProtectedRoutes>
+          // </ProtectedRoutes>
           
           }>
           <Route path='home' element={
-          <ProtectedRoutes>
+          // <ProtectedRoutes>
             
             <Homepage />
-          </ProtectedRoutes>
+          // </ProtectedRoutes>
             
           }
             />
