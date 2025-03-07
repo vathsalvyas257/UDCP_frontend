@@ -17,15 +17,17 @@ import Homepage from "./components/Dashboard/HomePage";
 import Jobs from "./components/Dashboard/Jobs";
 import Alumni from "./components/Dashboard/Alumni";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { useState } from "react";
 function App() {
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
   return (
     <Router>
-      <Header /> {/* Persistent Navigation */}
+      <Header isLoggedIn={isLoggedIn}/> {/* Persistent Navigation */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
-        <Route path="/auth" element={<Auth />}/>
+        <Route path="/auth" element={<Auth setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/auth-success' element={<AuthSuccess/>}/>
         <Route path="/dashboard" element={
           <ProtectedRoutes>

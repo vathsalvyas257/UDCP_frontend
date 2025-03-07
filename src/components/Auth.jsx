@@ -10,7 +10,7 @@ import successSound from "./success.mp3"; // Import success sound
 import failureSound from "./failure.mp3"; // Import failure sound
 import Popup from "./Popup";
 
-const Auth = () => {
+const Auth = ({setIsLoggedIn}) => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null, otp: "" });
   const [errors, setErrors] = useState({});
@@ -155,6 +155,8 @@ const Auth = () => {
       );
       dispatch(login(data.user)); // Dispatch login action
       localStorage.setItem("token",data.token);
+      setIsLoggedIn(true);
+
       showSuccessPopup("Login successful! Redirecting to dashboard...");
       navigate(`${import.meta.env.VITE_FRONTEND_URL}/dashboard/home`);
     } catch (error) {

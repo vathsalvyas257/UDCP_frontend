@@ -6,7 +6,7 @@ import { logout } from "../redux/authSlice"; // Import the logout action
 import Cookies from "js-cookie"
 import axios from "axios";
 
-const Header = () => {
+const Header = ({isLoggedIn}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [homeMenuOpen, setHomeMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -25,7 +25,7 @@ const Header = () => {
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isLoggedIn]);
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
