@@ -7,7 +7,7 @@ export default function ReplyList({ threadId }) {
   const { data: replies, isLoading } = useQuery({
     queryKey: ["replies", threadId],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:7777/api/replies/${threadId}/`, {
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/replies/${threadId}/`, {
         withCredentials: true,
       });
       console.log(res.data);

@@ -29,7 +29,7 @@ const ListOfSchedules = () => {
   const fetchSchedules = () => {
     setLoading(true);
     axios
-      .get("http://localhost:7777/schedule")
+      .get(`${import.meta.env.VITE_BASE_URL}/schedule`)
       .then((response) => {
         setSchedules(response.data);
       })
@@ -43,13 +43,13 @@ const ListOfSchedules = () => {
   };
 
   const handleViewPDF = (scheduleId) => {
-    const pdfUrl = `http://localhost:7777/schedule/${scheduleId}`;
+    const pdfUrl = `${import.meta.env.VITE_BASE_URL}/schedule/${scheduleId}`;
     window.open(pdfUrl, "_blank");
   };
 
   const handleDeleteSchedule = async (scheduleId) => {
     try {
-      await axios.delete(`http://localhost:7777/schedule/${scheduleId}`, {
+      await axios.delete(`${import.meta.env.VITE_BASE_URL}/schedule/${scheduleId}`, {
         withCredentials:true
       });
       setSchedules((prevSchedules) =>

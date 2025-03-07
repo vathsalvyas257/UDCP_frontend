@@ -35,7 +35,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:7777/api/auth/logout", {}, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/logout`, {}, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });

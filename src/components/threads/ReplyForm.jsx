@@ -16,7 +16,7 @@ export default function ReplyForm({ threadId }) {
 
     try {
       await axios.post(
-        `http://localhost:7777/api/replies/${threadId}`,
+        `${import.meta.env.VITE_BASE_URL}/api/replies/${threadId}`,
         { content },
         { withCredentials: true }
       );
