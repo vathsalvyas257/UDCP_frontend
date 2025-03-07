@@ -6,6 +6,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import axios from "axios";
+import CubeLoader from "../loaders/CubeLoader"; // Import the CubeLoader component
 
 // Backend API URL
 const API_URL = "http://localhost:7777/club";
@@ -18,10 +19,11 @@ const Clubs = () => {
   const [imagePreview, setImagePreview] = useState(null); // State for image preview
   const [imageUploaded, setImageUploaded] = useState(false); // State for image upload confirmation
   const [loading, setLoading] = useState(true); // State for loading clubs
+  const [creatingClub, setCreatingClub] = useState(false); // State for creating club loading
 
   useEffect(() => {
     fetchClubs();
-  }, []);
+  }, [clubs]);
 
   // Fetch clubs from backend
   const fetchClubs = async () => {
@@ -63,6 +65,8 @@ const Clubs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setCreatingClub(true); // Start loading
+
     const formData = new FormData();
     formData.append("name", newClub.name);
     formData.append("description", newClub.description);
@@ -85,6 +89,8 @@ const Clubs = () => {
       setImageUploaded(false);
     } catch (error) {
       console.error("Error creating club:", error);
+    } finally {
+      setCreatingClub(false); // Stop loading
     }
   };
 
@@ -104,9 +110,9 @@ const Clubs = () => {
         <Grid container spacing={3}>
           {Array.from({ length: 6 }).map((_, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor: "#CAF0F8" }}>
-                <Skeleton variant="rectangular" width="100%" height={140} />
-                <CardContent>
+              <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor: "#CAF0F8", height: 400 }}>
+                <Skeleton variant="rectangular" width="100%" height="60%" />
+                <CardContent sx={{ height: "40%" }}>
                   <Skeleton variant="text" width="80%" height={30} />
                   <Skeleton variant="text" width="100%" height={60} />
                   <Skeleton variant="text" width="60%" height={20} />
@@ -120,13 +126,28 @@ const Clubs = () => {
         <Grid container spacing={3}>
           {clubs.map((club) => (
             <Grid item xs={12} sm={6} md={4} key={club.id}>
-              <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor: "#CAF0F8" }}>
-                <CardMedia component="img" height="140" image={`${club.logo}`} alt={club.name} />
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>{club.name}</Typography>
-                  <Typography variant="body2" color="text.secondary">{club.description}</Typography>
-                  <Typography variant="subtitle2" color="primary" mt={1}>Faculty: {club.facultyCoordinator}</Typography>
-                  <Typography variant="subtitle2" color="primary">Student: {club.studentCoordinator}</Typography>
+              <Card sx={{ maxWidth: 345, mx: "auto", boxShadow: 3, borderRadius: 2, backgroundColor: "#CAF0F8", height: 400 }}>
+                {/* Image (60% of card height) */}
+                <CardMedia
+                  component="img"
+                  sx={{ height: "60%", objectFit: "cover" }} // Ensure the image covers the area
+                  image={`${club.logo}`}
+                  alt={club.name}
+                />
+                {/* Text (40% of card height) */}
+                <CardContent sx={{ height: "40%", overflow: "auto" }}>
+                  <Typography variant="h6" gutterBottom sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    {club.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    {club.description}
+                  </Typography>
+                  <Typography variant="subtitle2" color="primary">
+                    Faculty: {club.facultyCoordinator}
+                  </Typography>
+                  <Typography variant="subtitle2" color="primary">
+                    Student: {club.studentCoordinator}
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -147,7 +168,8 @@ const Clubs = () => {
               bgcolor: "background.paper",
               boxShadow: 24,
               borderRadius: 2,
-              overflow: "hidden"
+              overflow: "hidden",
+              filter: creatingClub ? "blur(1px)" : "none", // Blur the modal when loading
             }}>
               <motion.div
                 initial={{ scale: 0.5, opacity: 0, rotate: -10 }}
@@ -187,6 +209,18 @@ const Clubs = () => {
                   </Box>
                 </form>
               </motion.div>
+              {/* CubeLoader overlay */}
+              {creatingClub && (
+                <Box sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  zIndex: 9999,
+                }}>
+                  <CubeLoader />
+                </Box>
+              )}
             </Box>
           </Modal>
         )}

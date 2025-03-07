@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -72,7 +73,7 @@ export default function ThreadDetails() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.4 }}
       >
-        By {thread.author}
+        By {thread?.creator?.name}
       </motion.span>
 
       {/* Replies Section */}

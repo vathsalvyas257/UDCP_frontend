@@ -77,7 +77,7 @@ const Jobs = () => {
       {/* Header with Job-Related Icon */}
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 4 }}>
         <Typography variant="h4" gutterBottom sx={{ color: "#1976d2", animation: `${fadeIn} 1s ease-out`, mr: 2 }}>
-          Job Updates
+          Job & Internships
         </Typography>
         <Box
           component="img"

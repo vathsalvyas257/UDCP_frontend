@@ -17,6 +17,7 @@ import { Avatar, IconButton } from '@mui/material';
 import axios from 'axios';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
+import Cookies from 'js-cookie';
 
 // Import icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -69,6 +70,20 @@ function Dashboard() {
 
   // Fetch user data from backend
   React.useEffect(() => {
+    const token = Cookies.get("token");
+
+    const script = document.createElement("script");
+      script.src = "https://www.chatbase.co/embed.min.js";
+      script.id = "kyTSjERga5ap-ZlkxZ5X7";
+      script.domain = "www.chatbase.co";
+      script.async = true;
+    
+      document.body.appendChild(script);
+    
+      return () => {
+        document.body.removeChild(script); // Cleanup on unmount
+      };
+
     const fetchUserData = async () => {
       try {
         const response = await axios.get('/api/user'); // Replace with your API endpoint
@@ -92,6 +107,7 @@ function Dashboard() {
   const handleLogout = () => {
     // Implement logout logic
     console.log('User logged out');
+    set
     navigate('/login');
   };
 

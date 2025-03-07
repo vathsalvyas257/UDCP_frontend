@@ -15,14 +15,11 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.auth); // Get user and auth status from Redux
-  // console.log(Cookies.get('token'));
   let homeTimeout;
 
   useEffect(() => {
     const token = Cookies.get("token");
     setToken(token);
-    console.log("Token from Cookies:", token);
-
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -44,7 +41,8 @@ const Header = () => {
       });
       if (response) {
         console.log('Logged out successfully:');
-        dispatch(logout()); // Dispatch the logout action
+        dispatch(logout());
+        setToken(null); // Dispatch the logout action
         navigate("/auth");
       } else {
         console.log('Error logging out:');
@@ -61,8 +59,7 @@ const Header = () => {
         <Link to="/">
           <img
             // src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740547517/1630586594017_be838m.jpg"
-            // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
-            src="https://res.cloudinary.com/dcqd5eimb/image/upload/v1740603461/WhatsApp_Image_2025-02-27_at_02.26.16_jxjzfv.jpg"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCsGpixTPfxUCHFOFXbS0e0xo10p-rf12WQ&s"
             alt="Logo"
             className="h-11 w-11 rounded-full"
           />
@@ -106,7 +103,8 @@ const Header = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center space-x-6">
-        { (token!=null) ? (
+        
+        {token ? (
           <div className="flex items-center space-x-4">
             {/* <img
               src={user?.profilePicture || "https://via.placeholder.com/40"} // Use user's profile picture or a placeholder
@@ -115,7 +113,7 @@ const Header = () => {
             /> */}
             <button
               onClick={handleLogout}
-              className="text-white bg-[#fc0307] font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
+              className="text-white font-medium text-sm px-3 py-1 bg-[#B5651D] rounded hover:bg-[#D94E41] transition"
             >
               Logout
             </button>
@@ -181,10 +179,20 @@ const Header = () => {
               </div>
             )}
           </div>
-          {(token!=null) ? (
+          {/* {["services", "rewards"].map((link) => (
+            <Link
+              key={link}
+              to={/${link}}
+              className="text-gray-700 font-semibold hover:text-[#B5651D] transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              Our {link.charAt(0).toUpperCase() + link.slice(1)}
+            </Link>
+          ))} */}
+          {(token) ? (
             <button
               onClick={handleLogout}
-              className="bg-[#fc0307] text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
+              className="bg-red text-white font-medium text-sm px-4 py-2 rounded hover:bg-[#D94E41] transition"
             >
               Logout
             </button>
@@ -203,4 +211,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header;

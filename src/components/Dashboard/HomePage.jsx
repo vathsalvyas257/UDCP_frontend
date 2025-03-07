@@ -60,7 +60,7 @@ const Homepage = () => {
     overflow: "hidden",
     borderRadius: "12px",
     mb: 4,
-    backgroundImage: `url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")`, // Replace with your image URL
+    backgroundImage: `url("https://res.cloudinary.com/dcqd5eimb/image/upload/v1740627671/new_ver8cx.jpg ")`, // Replace with your image URL
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",

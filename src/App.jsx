@@ -31,59 +31,78 @@ function App() {
           <ProtectedRoutes>
           <Dashboard/>
           </ProtectedRoutes>
+          
           }>
           <Route path='home' element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
             <Homepage />
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
           }
             />
           <Route path='schedules' element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
             <ListOfSchedules/>
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
             }/>
           <Route path='profile' element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
             <ProfilePage/>
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
             }/>
           <Route path='clubs' element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
             <Clubs/> 
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
             }/>
           <Route path='jobs' element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
             <Jobs/>
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
             
             }/>
           <Route path="threads" element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
 
             <ThreadList />
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
 
             } />
             <Route path="thread/:id" element={
-            <ProtectedRoutes>
+          <ProtectedRoutes>
+            
 
               <ThreadDetails />
-            </ProtectedRoutes>
+          </ProtectedRoutes>
+            
 
               } />
             <Route path="thread/create" element={
+            
             <ProtectedRoutes>
 
               <CreateThreadForm />
-            </ProtectedRoutes>
+            
+              </ProtectedRoutes>
 
               } />
               <Route path="alumni" element={
-                <ProtectedRoutes>
+          <ProtectedRoutes>
+                
                   <Alumni/>
-                </ProtectedRoutes>
+          </ProtectedRoutes>
+                
               } />
         </Route>
         {/* <Route path="/threads" element={<ThreadList />} />
@@ -97,4 +116,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;

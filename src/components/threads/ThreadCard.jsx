@@ -20,7 +20,7 @@ export default function ThreadCard({ thread }) {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <FaUserCircle className="w-8 h-8 text-gray-400" />
-          <span className="text-sm text-gray-600">By {thread.author}</span>
+          <span className="text-sm text-gray-600">By {thread?.creator?.name}</span>
         </div>
         <span
           className={`px-3 py-1 rounded-full text-sm font-semibold ${

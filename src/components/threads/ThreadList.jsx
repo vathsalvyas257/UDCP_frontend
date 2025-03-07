@@ -3,8 +3,10 @@ import axios from "axios";
 import ThreadCard from "./ThreadCard";
 import CreateThreadForm from "./CreateThreadForm";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 export default function ThreadList() {
+  const {user} = useSelector((state)=> state.auth);
   const { data: threads, isLoading, error } = useQuery({
     queryKey: ["threads"],
     queryFn: async () => {
@@ -40,6 +42,7 @@ export default function ThreadList() {
     );
 
   return (
+
     <motion.div
       className="mt-[20vh] max-w-3xl mx-auto"
       initial={{ opacity: 0, y: 20 }}
@@ -47,6 +50,7 @@ export default function ThreadList() {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       {/* Animated Create Thread Form */}
+      { (user?.role === "admin") && ( 
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -54,6 +58,7 @@ export default function ThreadList() {
       >
         <CreateThreadForm />
       </motion.div>
+      )}
 
       {/* Animated Thread List */}
       <motion.div

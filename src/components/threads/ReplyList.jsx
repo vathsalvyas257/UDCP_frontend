@@ -10,6 +10,7 @@ export default function ReplyList({ threadId }) {
       const res = await axios.get(`http://localhost:7777/api/replies/${threadId}/`, {
         withCredentials: true,
       });
+      console.log(res.data);
       return res.data;
     },
   });
@@ -45,7 +46,7 @@ export default function ReplyList({ threadId }) {
               {/* Reply Content */}
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold text-gray-800">{reply.creator || "Anonymous"}</span>
+                  <span className="font-semibold text-gray-800">{reply?.user?.name || "Anonymous"}</span>
                   <span className="text-sm text-gray-500">
                     {new Date(reply.createdAt).toLocaleString()}
                   </span>

@@ -90,7 +90,8 @@ const ProfilePage = () => {
                     backgroundColor: "#87CEEB", // Light blue color
                   }}
                 >
-                  <AccountCircleIcon sx={{ fontSize: 140, color: "#ffffff" }} /> {/* Increased size */}
+                  <img src={user?.image}/>
+                  {/* <AccountCircleIcon sx={{ fontSize: 140, color: "#ffffff" }} /> Increased size */}
                 </Avatar>
                 <Typography variant="h5" fontWeight="bold">
                   {user?.name || "John Doe"}

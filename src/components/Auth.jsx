@@ -58,11 +58,11 @@ const Auth = () => {
   };
 
   // Redirect to dashboard if user is logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard/home");
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/dashboard/home");
+  //   }
+  // }, [user, navigate]);
 
   // Handle input change
   const handleChange = (e) => {
@@ -155,6 +155,7 @@ const Auth = () => {
       );
       dispatch(login(data.user)); // Dispatch login action
       showSuccessPopup("Login successful! Redirecting to dashboard...");
+      navigate("/dashboard/home");
     } catch (error) {
       showFailurePopup(error.response?.data?.error || "Login failed");
     }
