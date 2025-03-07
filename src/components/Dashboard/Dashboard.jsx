@@ -31,7 +31,7 @@ import ForumIcon from '@mui/icons-material/Forum';
 import WorkIcon from '@mui/icons-material/Work';
 
 import { GroupIcon } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 
 const NAV_ITEMS = [
   { label: 'Home', icon: <HomeIcon />, route: "/dashboard/home" }, // Home item
@@ -59,6 +59,7 @@ const NAV_ITEMS = [
 ];
 
 function Dashboard() {
+  const dispatch=useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [openSubNav, setOpenSubNav] = React.useState(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -104,11 +105,24 @@ function Dashboard() {
     setMobileOpen(false); // Close mobile drawer after navigation
   };
 
-  const handleLogout = () => {
-    // Implement logout logic
-    console.log('User logged out');
-    set
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/logout`, {}, {
+        withCredentials: true,
+        
+      });
+      if (response) {
+        console.log('Logged out successfully:');
+        // dispatch(logout());
+        localStorage.removeItem("token");
+        // setToken(null); // Dispatch the logout action
+        navigate("/auth");
+      } else {
+        console.log('Error logging out:');
+      }
+    } catch (err) {
+      console.error('Logout Error:', err);
+    }
   };
 
   const drawerContent = (

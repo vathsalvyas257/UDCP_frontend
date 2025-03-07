@@ -37,7 +37,7 @@ const Header = ({isLoggedIn}) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/logout`, {}, {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
+        
       });
       if (response) {
         console.log('Logged out successfully:');
