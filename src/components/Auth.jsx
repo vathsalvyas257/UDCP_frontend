@@ -119,7 +119,7 @@ const Auth = ({setIsLoggedIn}) => {
   // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.password || !formData.rePassword || !formData.image ) {
+    if (!formData.name || !formData.email || !formData.password  ) {
       showFailurePopup("Please fill all fields, upload an image");
       return;
     }
