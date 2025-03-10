@@ -158,7 +158,7 @@ const Auth = ({setIsLoggedIn}) => {
       setIsLoggedIn(true);
 
       showSuccessPopup("Login successful! Redirecting to dashboard...");
-      navigate(`${import.meta.env.VITE_FRONTEND_URL}/dashboard/home`);
+      navigate(`/dashboard/home`);
     } catch (error) {
       showFailurePopup(error.response?.data?.error || "Login failed");
     }
