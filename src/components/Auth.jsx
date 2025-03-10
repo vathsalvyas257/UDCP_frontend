@@ -138,7 +138,7 @@ const Auth = ({setIsLoggedIn}) => {
         formDataToSend.append("image", formData.image);
       }
   
-      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL || ""}/api/auth/register`, formDataToSend, {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL || "/api"}/auth/register`, formDataToSend, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -158,7 +158,7 @@ const Auth = ({setIsLoggedIn}) => {
     }
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_BASE_URL||""}/api/auth/login`,
+        `${import.meta.env.VITE_BASE_URL||"/api"}/auth/login`,
         {
           email: formData.email,
           password: formData.password,
