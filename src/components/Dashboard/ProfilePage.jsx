@@ -153,14 +153,7 @@ const ProfilePage = () => {
                 >
                   Edit Profile
                 </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={handleLogout}
-                  fullWidth
-                >
-                  Logout
-                </Button>
+              
               </Box>
             </motion.div>
           </Grid>
