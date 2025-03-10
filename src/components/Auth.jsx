@@ -12,7 +12,7 @@ import Popup from "./Popup";
 
 const Auth = ({setIsLoggedIn}) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null, otp: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", rePassword: "", image: null});
   const [errors, setErrors] = useState({});
   const [shake, setShake] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -119,24 +119,36 @@ const Auth = ({setIsLoggedIn}) => {
   // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.password  ) {
-      showFailurePopup("Please fill all fields, upload an image");
+    if (!formData.name || !formData.email || !formData.password || !formData.rePassword) {
+      showFailurePopup("Please fill all fields and upload an image.");
       return;
     }
+  
+    if (formData.password !== formData.rePassword) {
+      showFailurePopup("Passwords do not match.");
+      return;
+    }
+  
     try {
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => formDataToSend.append(key, formData[key]));
-      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL||""}/api/auth/register`, formDataToSend, {
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("password", formData.password);
+      if (formData.image) {
+        formDataToSend.append("image", formData.image);
+      }
+  
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL || ""}/api/auth/register`, formDataToSend, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
+  
       showSuccessPopup("Signup successful! Please login.");
       setIsLogin(true);
     } catch (error) {
       showFailurePopup(error.response?.data?.error || "Signup failed");
     }
   };
-
   // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
