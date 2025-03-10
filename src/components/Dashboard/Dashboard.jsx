@@ -29,7 +29,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SchoolIcon from '@mui/icons-material/School';
 import ForumIcon from '@mui/icons-material/Forum';
 import WorkIcon from '@mui/icons-material/Work';
-
+import { logout } from '../../redux/authSlice';
 import { GroupIcon } from 'lucide-react';
 import { useSelector,useDispatch } from 'react-redux';
 
@@ -113,9 +113,9 @@ function Dashboard() {
       });
       if (response) {
         console.log('Logged out successfully:');
-        // dispatch(logout());
+        dispatch(logout());
         localStorage.removeItem("token");
-        // setToken(null); // Dispatch the logout action
+        setToken(null); // Dispatch the logout action
         navigate("/auth");
       } else {
         console.log('Error logging out:');
