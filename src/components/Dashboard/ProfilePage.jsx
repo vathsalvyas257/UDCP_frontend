@@ -20,7 +20,7 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/auth/logout`,
+        `${import.meta.env.VITE_BASE_URL||""}/api/auth/logout`,
         {},
         {
           withCredentials: true,

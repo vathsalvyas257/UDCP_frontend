@@ -19,7 +19,7 @@ export default function CreateThreadForm() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/threads`,
+        `${import.meta.env.VITE_BASE_URL||"/api"}/threads`,
         { title, category, creator },
         { withCredentials: true }
       );

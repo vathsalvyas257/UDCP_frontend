@@ -10,7 +10,7 @@ export default function ThreadList() {
   const { data: threads, isLoading, error } = useQuery({
     queryKey: ["threads"],
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/threads`, {
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL||"/api"}/threads`, {
         withCredentials: true,
       });
       return res.data;

@@ -126,7 +126,7 @@ const Auth = ({setIsLoggedIn}) => {
     try {
       const formDataToSend = new FormData();
       Object.keys(formData).forEach((key) => formDataToSend.append(key, formData[key]));
-      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/register`, formDataToSend, {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL||""}/api/auth/register`, formDataToSend, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -146,7 +146,7 @@ const Auth = ({setIsLoggedIn}) => {
     }
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
+        `${import.meta.env.VITE_BASE_URL||""}/api/auth/login`,
         {
           email: formData.email,
           password: formData.password,
@@ -331,7 +331,7 @@ const Auth = ({setIsLoggedIn}) => {
                 <span>{isLogin ? "Login" : "Sign Up"}</span>
               </button>
               <div className="flex justify-center space-x-4 mt-3">
-                <a href={`${import.meta.env.VITE_BASE_URL}/api/auth/google`} className="flex items-center space-x-2 border px-4 py-2 rounded-md shadow-md hover:bg-gray-200 transition">
+                <a href={`${import.meta.env.VITE_BASE_URL||""}/api/auth/google`} className="flex items-center space-x-2 border px-4 py-2 rounded-md shadow-md hover:bg-gray-200 transition">
                   <FcGoogle size={20} />
                   <span>Google</span>
                 </a>

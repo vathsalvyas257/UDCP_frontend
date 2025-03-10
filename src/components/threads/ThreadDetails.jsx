@@ -11,7 +11,7 @@ export default function ThreadDetails() {
   const { data: thread, isLoading, error } = useQuery({
     queryKey: ["thread", id],
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/threads/${id}`);
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL||"/api"}/threads/${id}`);
       return res.data;
     },
   });

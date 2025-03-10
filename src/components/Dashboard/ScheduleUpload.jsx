@@ -65,7 +65,7 @@ const ScheduleUpload = ({ showUpload, setShowUpload }) => {
     console.log(formData);
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/schedule`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL||"/api"}/schedule`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
