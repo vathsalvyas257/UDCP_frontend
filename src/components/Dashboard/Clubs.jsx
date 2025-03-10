@@ -9,7 +9,7 @@ import axios from "axios";
 import CubeLoader from "../loaders/CubeLoader"; // Import the CubeLoader component
 
 // Backend API URL
-const API_URL = `${import.meta.env.VITE_BASE_URL||""}/club`;
+const API_URL = `${import.meta.env.VITE_BASE_URL||"/api"}/club`;
 
 const Clubs = () => {
   const [clubs, setClubs] = useState([]);
